@@ -164,7 +164,7 @@ public class JobFinder3{
                     //Make them strings
                     //IDStr[z] = id.toString();
                     //System.out.println(age);
-                    System.out.println(IDStr[z]);
+                   //System.out.println(IDStr[z]);
                     
                     //If the add has already been ran through, this is the last
                     //page of the JSON query
@@ -183,7 +183,7 @@ public class JobFinder3{
                         
                     }
                     //IDStr[z] = id.toString();
-                    System.out.println(IDStr[z]);
+                   //System.out.println(IDStr[z]);
                     titleStr[z] = title.toString().substring(1, 
                             title.toString().length()-1);
                     titleStr[z] = titleStr[z].replaceAll("'", "");
@@ -206,7 +206,7 @@ public class JobFinder3{
                     ageStr[z] = age.toString().substring(1, 
                             age.toString().length()-1);
                     
-                    System.out.println(ageStr[z]);
+                   //System.out.println(ageStr[z]);
                     
                    //System.out.println(ageStr[z]);
                     //System.out.println(IDStr[z]);
@@ -215,7 +215,7 @@ public class JobFinder3{
                             SalaryType[z],JobType[z],"Gumtree",ageStr[z],
                             titleStr[z], Integer.parseInt(distanceStr[z]));
                     
-                    System.out.println(Gumtree[z].Title);
+                   //System.out.println(Gumtree[z].Title);
                 
                 } catch(Exception e) {
                   

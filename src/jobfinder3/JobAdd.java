@@ -140,7 +140,7 @@ public class JobAdd {
                         this.Title_Desc + "', '" + this.Website + "')";
                 stmt.executeUpdate(insert);
                 
-               //System.out.println("\n\n===================\n\n" + "ID: " + 
+                System.out.println("\n\n===================\n\n" + "ID: " + 
                         this.UniqueID + "\nTite: " + this.Title + 
                             "\nLocation: " + this.Location + "\nDistance: " +
                             this.Distance + "\nAge: " + this.Age + "\nURL: " + 
@@ -151,7 +151,7 @@ public class JobAdd {
         } catch(SQLException e) {
 
             //There will be an error if Unique ID is not unique.
-          //System.err.println(e);
+           System.err.println(e);
 
         }
 
