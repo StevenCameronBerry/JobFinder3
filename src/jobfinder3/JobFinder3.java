@@ -14,99 +14,74 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import java.sql.*;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.*;
 
 
 /**
  *
  * @author aaron
  */
-public class JobFinder3 {
-
-    //Attributes for the database connection
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "ZZaq32!!";
-    private static final String CONN_STRING = "jdbc:mysql://localhost:3306/job"+
-            "finder3";
+public class JobFinder3{
     
     public static void main(String[] args) throws Exception {
-    
-       /*Method to connect to the DB*/
-       Connection conn = null;
-
-        try {
-
-            //connect
-            conn = DriverManager.getConnection(CONN_STRING,USERNAME,
-                    PASSWORD);
-            //////System.out.println("Connected!");
-
-        } catch(SQLException e) {
-
-           //System.err.println(e);
-
-        }
         
+        int status;
+
     while(true){
         
         //Initialize Attributes
-        int status, i, j, x, y, b, ageMins, ageHours;
-        int z = 0, rowcount = 0, row = 0, a = 0;
-        String JSONStr, AgeT;
-        String[] uniqueIDStr = new String[96*13];
+        int  i, j, x, y, b, c;
+        int z = 0, rowcount = 0, row = 0, a = 0, d = 0;
+        String JSONStr;
         String[] IDStr = new String[96*13];
+        JobAdd[] Gumtree = new JobAdd[96*13];
+        String[] IDOld = new String[21474836];
         String[] titleStr = new String[96*13];
         String[] locationStr = new String[96*13];
         String[] distanceStr = new String[96*13];
         String[] ageStr = new String[96*13];
-        String[] ageReal = new String[96*13];
-        String[] URLStr = new String[96*13];
-        String[] IDOld = new String[21474836];
         String[] SalaryType = new String[96*13];
         String[] JobType = new String[96*13];
+        JobAdd[] InsertList = new JobAdd[96*13];
+        String[] URLListDB = new String[96*13];
         
         /*Get all 13 pages of gumtrees job listing. When there are 96 results
-    Per page on gumtree there are 13 pages.*/
-/*New method to make sure that the new ID's havent been run through 
-                     already*/
-                    try {
+        Per page on gumtree there are 13 pages.*/
+        /*New method to make sure that the new ID's havent been run through 
+        already*/
+        Connection conn = DBConnect.Connect();
+        try {
 
-                        //SQL statement
-                        Statement stmt = (Statement) conn.createStatement();
-                        String query = "SELECT ID FROM jobfinder3.jf3";
+           //SQL statement
+           Statement stmt = (Statement) conn.createStatement();
+           String query = "SELECT ID FROM jobfinder3.jf3";
 
-                        //Obtain the results
-                        ResultSet Results = stmt.executeQuery(query);
+           //Obtain the results
+           ResultSet Results = stmt.executeQuery(query);
 
-                        //Find out how many null results there were for Description
-                        if (Results.last()) {
-                          row = Results.getRow();
-                          Results.beforeFirst();
-                          //////System.out.println(rowcount);
-                        }
-                        while (Results.next() && a <= row) {
+           //Find out how many null results there were for Description
+           if (Results.last()) {
+               
+             row = Results.getRow();
+             Results.beforeFirst();
+             
+           }
+           while (Results.next() && a <= row) {
 
-                            // do your standard per row stuff 
-                            IDOld[a] = Results.getString("ID");
-                           //////System.out.println(IDOld[a] + "\n");
-                           //////System.out.println(a);
-                            
-                            a = a + 1;
-                            
-                        }
+               // do your standard per row stuff 
+               IDOld[a] = Results.getString("ID");
 
-                    } catch(SQLException e) {
+               a = a + 1;
 
-                        //There will be an error if Unique ID is not unique.
-                       //System.err.println(e);
+           }
 
-                    }
+       } catch(SQLException e) {
+
+           //System.err.println(e);
+
+       }
         
     /*Output for this method is array of JSON*/
     /* THERE NEEDS TO BE A BREAK FROM LOOP IF THERE IS A DUPLICATE ID */
@@ -122,7 +97,9 @@ public class JobFinder3 {
 
             //Response type
             status = con.getResponseCode();
-
+            
+            ////System.out.println(status);
+            
             //Parse the information into a string, "content"
             BufferedReader in = new BufferedReader(
             new InputStreamReader(con.getInputStream()));
@@ -135,9 +112,6 @@ public class JobFinder3 {
 
             //Make 'content' a string
             JSONStr = content.toString();
-            
-            //Print the content
-            //////System.out.println(content);
             
             /*New Method here, this methods output is an array of add ID's
             Parse JSON*/
@@ -155,6 +129,8 @@ public class JobFinder3 {
             JsonElement resultList = resultsObj.get("resultList");
             JsonArray resultListArr = resultList.getAsJsonArray();
             
+            ////System.out.println(resultListArr);
+            
             //Get all of the result List (0 - 95)
             for(x=0, y=95; x <= y; x++, z++){
              
@@ -162,45 +138,56 @@ public class JobFinder3 {
                    
                     //Job listings on a page
                     JsonElement Ecs = resultListArr.get(x);
+                    //System.out.println(Ecs);
                     JsonObject EcsObj = Ecs.getAsJsonObject();
 
                     //Data we care about
                     JsonElement id = EcsObj.get("id");
+                    //System.out.println(id);
                     JsonElement title = EcsObj.get("title");
                     JsonElement location = EcsObj.get("location");
                     JsonElement distance = EcsObj.get("distance");
                     JsonElement age = EcsObj.get("age");
+                    //System.out.println(age);
                     
-                    //Naviagate down the JSON Tree and obtain appropriate information.
+                    //Naviagate down the JSON Tree and obtain appropriate 
+                    //information.
                     JsonElement mainAttributes = EcsObj.get("mainAttributes");
-                    JsonObject mainAttributesObj = mainAttributes.getAsJsonObject();
+                    JsonObject mainAttributesObj = mainAttributes
+                            .getAsJsonObject();
                     JsonElement data2 = mainAttributesObj.get("data");
                     JsonObject data2Obj = data2.getAsJsonObject();
                     JsonElement salarytype = data2Obj.get("salarytype");
                     JsonElement jobtype = data2Obj.get("jobtype");
-                    System.out.println(salarytype.toString() + " " + jobtype.toString());
+                    //System.out.println(salarytype.toString() + " " + jobtype
 
                     //Make them strings
                     IDStr[z] = id.toString();
+                    //System.out.println(age);
+                    //System.out.println(IDStr[z]);
+                    
                     //If the add has already been ran through, this is the last
                     //page of the JSON query
                     //If the ID in the DB
                     for(b=0; b <= a; b++){
                         
                         if(IDStr[z].equals(IDOld[b]) == true){
-
-                            //Break from the JSON loopo
+                            
+                            //Break from the JSON loop
                             j = i;
+                            
+                            //Skip a JSON Array
+                            x++;
+                            z++;
 
                         }
                         
                     }
-                    uniqueIDStr[z] = "G" + id.toString();
-                    //Get rid of " at the end of the strings.
+                    IDStr[z] = id.toString();
                     titleStr[z] = title.toString().substring(1, 
                             title.toString().length()-1);
                     titleStr[z] = titleStr[z].replaceAll("'", "");
-                   titleStr[z] = titleStr[z].replaceAll("&", "and");
+                    titleStr[z] = titleStr[z].replaceAll("&", "and");
                     locationStr[z] = location.toString().substring(1, 
                             location.toString().length()-1);
                     distanceStr[z] = distance.toString().substring(1, 
@@ -218,442 +205,141 @@ public class JobFinder3 {
                             jobtype.toString().length()-1);
                     ageStr[z] = age.toString().substring(1, 
                             age.toString().length()-1);
-                    //Get the current time in this format YYYY-MM-DD HH:MM:SS
-                    if(ageStr[z].equals("Yesterday") == true){
-                        
-                        Calendar cal = Calendar.getInstance();
-                        cal.add(Calendar.DATE, -1);
-                        String Yesterday = new SimpleDateFormat
-                            ("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
-                        ageReal[z] = Yesterday;
-                        //System.out.println(ageReal[z]);
-
-                    }else if(ageStr[z].contains("minutes ago") == true){
-                        
-                        //System.out.println("had minutes ago");
-                        
-                        //Get how many minutes it was
-                        AgeT = ageStr[z].replace(" minutes ago", "");
-                        //System.out.println(AgeT);
-                        ageMins = Integer.parseInt(AgeT);
-                        //System.out.println(ageMins);
-                        
-                        //Format Data
-                        Calendar cal = Calendar.getInstance();
-                        cal.add(Calendar.MINUTE, - ageMins);
-                        String MinsAgo = new SimpleDateFormat
-                            ("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
-                        //System.out.println(MinsAgo);
-                        ageReal[z] = MinsAgo;
-                        //System.out.println(ageReal[z]);
-
-                    }else if(ageStr[z].contains("hours ago") == true){
-                        
-                        //System.out.println("had hours ago");
-                        
-                        //Get how many hours it was
-                        AgeT = ageStr[z].replace(" hours ago", "");
-                        //System.out.println(AgeT);
-                        ageHours = Integer.parseInt(AgeT);
-                        //System.out.println(ageHours);
-                        
-                        //Format Data
-                        Calendar cal = Calendar.getInstance();
-                        cal.add(Calendar.HOUR, - ageHours);
-                        String HoursAgo = new SimpleDateFormat
-                            ("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
-                        //System.out.println(HoursAgo);
-                        ageReal[z] = HoursAgo;
-                        //System.out.println(ageReal[z]);
-
-                    }else{ //If it just had a date listed
-                        
-                        String DatePosted = new SimpleDateFormat
-                            ("YYYY-MM-dd HH:MM:ss").format(ageReal[z]);
-                        
-                        ageReal[z] = DatePosted;
-                        //System.out.println(ageReal[z]);
-                        
-                    }
                     
-                    URLStr[z] = "https://www.gumtree.com.au/s-ad/" + IDStr[z];
-                    ////System.out.println(URLStr[z]);
+                   //System.out.println(ageStr[z]);
+                    //System.out.println(IDStr[z]);
                     
-
-                    String Add = "ID: " + IDStr[z] + "\nTite: " + titleStr[z] + 
-                            "\nLocation: " + locationStr[z] + "\nDistance: " +
-                            Integer.parseInt(distanceStr[z]) + "\nAge: " + 
-                            ageReal[z] + "\nURL: " + URLStr[z] + 
-                            "\n\n===================\n\n";
-
-                    ////System.out.println(Add);
+                    Gumtree[z] = new JobAdd(IDStr[z],locationStr[z],
+                            SalaryType[z],JobType[z],"Gumtree",ageStr[z],
+                            titleStr[z], Integer.parseInt(distanceStr[z]));
+                    
+                    //System.out.println(Gumtree[z].URL);
                 
                 } catch(Exception e) {
                   
-                    //Do nothin
-                    
-                }   
+                   //System.out.println(e);
                     
                 }
-             
-                con.disconnect();
-            
-            }
-        
-        /*Make a method to get an array of all ID's
-
-        /* SQL query NEW METHOD */
-        for(x=0, y=95*13; x <= y; x++){
-            
-            ////////System.out.println(uniqueIDStr[x]);
-            ////////System.out.println(x);
-            //////System.out.println(Integer.parseInt(distanceStr[x]+0));
-        
-            try {
-            
-                if(uniqueIDStr[x] != null){
                 
+                try {
+                    
+                   //System.out.println(Gumtree[z].URL);
+
+                    //SQL statement
                     Statement stmt = (Statement) conn.createStatement();
-                    String insert = "INSERT INTO jobfinder3.jf3 (uniqueID, " + 
-                            "ID, Title, Location, Distance_km, Age, URL, " +
-                            "SalaryType, JobType)" +
-                            " VALUES ('" + uniqueIDStr[x] + "', '" + IDStr[x] + 
-                            "', '" + titleStr[x] + "', '" + locationStr[x] + 
-                            "', '" + Integer.parseInt(distanceStr[x]) + "', '"
-                            + ageReal[x] + "', '" + URLStr[x] + "', '" + 
-                            SalaryType[x] + "', '" + JobType[x] + "')";
-                    stmt.executeUpdate(insert);
+                    String query = "SELECT URL FROM jobfinder3.jf3 WHERE URL "+
+                            "!= '" + Gumtree[z].URL + "'";
+
+                    //Obtain the results
+                    ResultSet Results = stmt.executeQuery(query);
+
+                    c = 0;
+
+                    //Find out how many null results there were for Description
+                    if (Results.last()) {
+                      rowcount = Results.getRow();
+                      Results.beforeFirst();
+                    }
+                    while (Results.next() && c <= rowcount) {
+
+                        // do your standard per row stuff 
+                        URLListDB[c] = Results.getString("URL");
+                       //System.out.println(URLListDB[c] + "\n=======\n"+ Gumtree[z].URL + "\n======\n");
+                        //System.out.println(Gumtree[z].URL);
+                        
+                        //If the URL is not in the database it needs to be added to
+                        //the list.
+                        if(URLListDB[c].equals(Gumtree[z].URL) != true){
+
+                           //System.out.println(Gumtree[z].URL);
+                           InsertList[z] = Gumtree[z];
+                           //System.out.println(InsertList[c].URL);
+                            
+                            c = c + 1;
+                            d = d + 1;
+
+                        }
+                        
+                        c = c + 1;
+
+                    }
+
+                } catch(SQLException e) {
+
+                    //There will be an error if Unique ID is not unique.
+                    //System.err.println(e);
+
+                } catch(Exception e){
+                    
+                    
+                    
+                }
+                    
+                    //System.out.println(URLList[z]);
                 
                 }
-                
-            } catch(SQLException e) {
-                
-                //There will be an error if Unique ID is not unique.
-               System.err.println(e);
-                
+            
+                con.disconnect();
+                //System.out.println(Gumtree[z].UniqueID);
+            
             }
-
-        }
+    
+        z = 0; //Reset the z counter
         
-        /*New method to obtain a string list of all empty adds*/
-        String[] URLList = new String[1241]; //This will need to be a pre-determined number
-        
-        try {
-
-            //SQL statement
-            Statement stmt = (Statement) conn.createStatement();
-            String query = "SELECT URL FROM jobfinder3.jf3 WHERE Description "
-                    + "IS null";
-            
-            //Obtain the results
-            ResultSet Results = stmt.executeQuery(query);
-            
-            x = 0;
-            
-            //Find out how many null results there were for Description
-            if (Results.last()) {
-              rowcount = Results.getRow();
-              Results.beforeFirst();
-              //////System.out.println(rowcount);
-            }
-            while (Results.next() && x <= rowcount) {
-                
-                // do your standard per row stuff 
-                URLList[x] = Results.getString("URL");
-                x = x + 1;
-                
-            }
-            
-        } catch(SQLException e) {
-
-            //There will be an error if Unique ID is not unique.
-           //System.err.println(e);
-
-        }
-        
-        /*New method to make Get requests for all Job adds with no description.
-        */
-        
-        /*Add a method here to get all existing URL's in an array */
-        
-        /*Add a method here to reduce all of URLList based on the above method
-        */
-        
+       //System.out.println(rowcount);
+    
         //Output for unparsed HTML
-        String[] UnParsed = new String[rowcount]; //1235
-        ////System.out.println(URLList);
-        //1235
+        String[] UnParsed = new String[rowcount];
+        String[] Descriptions = new String[rowcount];
+        String[] Names = new String[rowcount];
+       //System.out.println(rowcount);
+        
         for(x=0; x < rowcount; x++){
             
-            ////System.out.println(URLList[x]);
+           
+            try{
+                
+                UnParsed[x] = WebScrape.Connect(InsertList[x].URL, UnParsed[x]);
+                //Re try connection if it failed
+                if(UnParsed[x].contains("https://")){
+                
+                    UnParsed[x] = WebScrape.Connect(InsertList[x].URL, UnParsed[x]);
+                
+                }
+                
+                Document doc = WebScrape.Parse(UnParsed[x]);
+                
+                Descriptions[x] = WebScrape.Extract(doc, "vip-ad-description");
             
-            URL url = new URL(URLList[x]);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+                //If the description wasnt there the add was taken down
+                if(Descriptions[x].isEmpty() == true){
 
-            //Response type
-            try{
-                
-                status = con.getResponseCode();
-                //////System.out.println(URLList[x] + " responded");
-                y = x + 1;
-                //////System.out.println("\n" + y + " completed out of " + rowcount);
-                
-            } catch(Exception e){
-                
-               //////System.out.println(e + " was the error!!!!");
-               //////System.out.println(URLList[x] + " did not respond");
-                
-            }//Add a catch here for timeouts!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //} catch(){
-                
-                
-                
-            //}
-            /* MAKE LIST OF URLS THAT DID NOT RESPOND AND TRY AGAIN SOMEHOW */
+                    InsertList[x].URL = null;
+                    rowcount = rowcount - 1;
 
-            //Parse the information into a string, "content"
-            BufferedReader in = new BufferedReader(
-            new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-            in.close();
-            
-            ////////System.out.println(content);
-            
-            try{
-            
-                UnParsed[x] = content.toString();
+                }else if (InsertList[x].ID != null){
+
+                   Names[x] = WebScrape.Extract(doc, "seller-profile__name");
+                  //System.out.println(Names[x]);
+
+                   InsertList[x].SetDesc(Descriptions[x]);
+                   InsertList[x].SetName(Names[x]);
+                   InsertList[x].TitleDesc();
+                  //System.out.println(Gumtree[x].Title + "\n" + InsertList[x].Name + "\n" + InsertList[x].Description);
+                   InsertList[x].DBInsert(conn);   
+
+                }
                 
-            } catch(Exception e){
-                
-                //////System.out.println("Couldn't parse");
-                //////System.out.println(e);
-                
-            }
-            
-            ////////System.out.println(UnParsed[x]);
-            
-        
-        
-        /*Method to Parse the HTML from Gumtree*/
-        Document[] doc = new Document[rowcount];
-        //HERE WAS A LOOP
-        
-            
-            try{
-             
-                //To HTML
-                doc[x] = Jsoup.parse(UnParsed[x]);
-                
-            } catch(Exception e) {
-                
-                //////System.out.println("Couldnt parse");
-                //////System.out.println(e);
-                
-            }
-            
-        
-        
-        /*Method to get the name of the Advertiser */
-        String[] Descriptions = new String[rowcount]; //1235
-        //HERE WAS A LOOP
-        
-            
-            ////////System.out.println(a);
-            
-            try{
-                
-                //Get Description
-                Elements DescriptionEl = doc[x].getElementsByClass("vip-ad-des"+
-                        "cription");
-                Descriptions[x] = DescriptionEl.text();
-                
-            } catch(Exception e) {
-                
-                //////System.out.println("Couldnt parse");
-                //////System.out.println(e);
-                
-            }
-        //////System.out.println(Descriptions[x]);
-        /*Method to delete URL's if they have been taken down*/
-        if(Descriptions[x].isEmpty() == true){
-                    
-            //REMOVE IT FROM URLLIST AND MAKE IT SO IT CANT BE PUT BACK THERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            URLList[x] = null;
-            rowcount = rowcount - 1;
-           //////System.out.println("worked "+rowcount);
-            
-        }
-        
-        /*Method to get the title of the Add so it synchs with previous and next
-        methods*/
-        String[] Titles = new String[rowcount]; //1235
-        //HERE WAS A LOOP
-        
-            
-            ////////System.out.println(a);
-            
-            try{
-                
-                //Get Description
-                Elements TitleEl = doc[x].getElementsByClass("vip-ad-title__he"+
-                        "ader");
-                Titles[x] = TitleEl.text();
-                //////System.out.println(Titles[x]);
-                
-            } catch(Exception e) {
-                
-                //////System.out.println("Couldnt parse");
-                //////System.out.println(e);
-                
-            }
-            
-        
-        
-        /*Advertiser Names */
-        String[] Names = new String[rowcount]; //1235
-        //HERE WAS A LOOP
-        
-            
-            ////////System.out.println(a);
-            
-            try{
-                
-                Elements NameEl = doc[x].getElementsByClass("seller-profile__n"+
-                        "ame");
-                Names[x] = NameEl.text();
-                //////System.out.println(Names[x]);
-                
-            } catch(Exception e) {
-                
-                //////System.out.println("Couldnt parse");
-                //////System.out.println(e);
-                
-            }
-            
-        
-        
-        /*Clean Titles for apostrophes marks*/
-        //HERE WAS A LOOP
-         
-             
-             try{
-                 
-                 Titles[x] = Titles[x].replaceAll("'", "");
-                 Titles[x] = Titles[x].replaceAll("&", "and");
-                 
-             }catch(Exception e){
-                 
-                 //////System.out.println(e);
-                 
-             }
-             
-         
-        
-        /*Make the title lower case*/
-        String[] TitleLower = new String[rowcount]; //1235
-        //HERE WAS A LOOP
-        
-            
-            try{
-             
-                TitleLower[x] = Titles[x].toLowerCase();
-                
-            } catch(Exception e){
-                
-                //////System.out.println("No Title");
-                
-            }
-            
-        
-         
-         /*Clean Titles for apostrophes marks*/ /*MAKE THESE DIFF ARR INPUT!!!!!!!!!!!!*/
-         //HERE WAS A LOOP
-         
-             
-             try{
-             
-                Descriptions[x] = Descriptions[x].replaceAll("'", "");
-                Descriptions[x] = Descriptions[x].replaceAll("&", "and");
-                
-             } catch(Exception e){
-                 
-                 //////System.out.println(e);
-                 
-             }
-             
-             try{
-                Names[x] = Names[x].replaceAll("'", "");
-             }catch(Exception e){
-                 System.out.println(e);
-             }
-        
-        /*Make the description lower case*/
-        String[] DescLower = new String[rowcount]; //1235
-        //HERE WAS A LOOP
-        
-             
-             try{
-             
-                DescLower[x] = Descriptions[x].toLowerCase();
-            
-             }catch(Exception e){
-            
-                 //////System.out.println(e);
-                 
-            }
-             
-         
-         
-         /*Combine the lower case title with the lower case Description*/
-         String[] TitleDesc = new String[rowcount]; //1235
-         //HERE WAS A LOOP
-         
-            try{
-                
-                TitleDesc[x] = TitleLower[x] + " || " + DescLower[x];
-                //////System.out.println(TitleDesc[x]);
-             
             }catch(Exception e){
-                    
-                //////System.out.println(e);
-                    
+                
+                
+                
             }
          
-         /*New method to update the DB with titles and descriptions*/
-         //HERE WAS A LOOP
-         
-             
-            try {
-
-                   Statement stmt = (Statement) conn.createStatement();
-                    String insert = "UPDATE jobfinder3.jf3 SET Description "+
-                            "= '" + Descriptions[x] + "', Name = '" + 
-                            Names[x] + "', `Title+Desc` = '" + TitleDesc[x] +
-                            "' WHERE Title = '" + Titles[x] + "'";
-                    stmt.executeUpdate(insert);
-
-               } catch(SQLException e) {
-
-                   //There will be an error if Unique ID is not unique.
-                  //System.err.println(e);
-
-               } catch(Exception e){
-                   
-                  //////System.out.println(e);
-                   
-               }
-    
+            }
+        //BEGIN THE PROCESS FOR SEEK HERE
         }
-         
-    }
-        
-    }
-   
     
+    }
     
 }
