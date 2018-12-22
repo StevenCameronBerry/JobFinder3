@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -44,7 +45,7 @@ public class JobAdd {
 
         }else if(this.Website.equals("Seek")){
 
-            this.URL = "" + this.ID; //Add Seek URL
+            this.URL = "https://www.seek.com.au/job/" + this.ID;
 
         }
 
@@ -86,10 +87,10 @@ public class JobAdd {
 
         }else{ //If it just had a date listed
 
-            String DatePosted = new SimpleDateFormat
-                ("YYYY-MM-dd HH:MM:ss").format(AgeStr);
-
-            this.Age = DatePosted;
+            String AgeFormat1 = AgeStr.replaceAll("T", " ");
+            String AgeFormat2 = AgeFormat1.replaceAll("Z", "");
+            
+            this.Age = AgeFormat2;
 
         }
 
