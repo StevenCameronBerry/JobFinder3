@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.jsoup.nodes.Element;
 
 public class WebScrape {
     
@@ -117,8 +118,8 @@ public class WebScrape {
         try{
 
             //Get Description
-            Elements DescriptionEl = doc.getElementsContainingText(ElementsClass);
-            Descriptions = DescriptionEl.text();
+            Elements DescriptionEl = doc.getElementsByClass(ElementsClass);
+            Descriptions = DescriptionEl.attr(Descriptions);
             return Descriptions;
 
         } catch(Exception e) {
@@ -126,6 +127,20 @@ public class WebScrape {
             return "Description did not work";
 
         }
+        
+    }
+    
+
+    //A method to find the class name in a list from a document
+    static void ClassName(Document doc){
+        
+        //System.out.println(doc.toString());
+        Elements divs = doc.select("div");
+        for(Element elem : divs){
+            System.out.println(elem.className()); //get all elements inside div
+            System.out.println("\n========\n");
+            System.out.println(elem.text() + "\n======\n");
+          }
         
     }
     

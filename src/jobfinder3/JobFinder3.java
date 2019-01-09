@@ -5,93 +5,64 @@
  */
 package jobfinder3;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
+import com.mysql.cj.xdevapi.Result;
 import java.sql.*;
-import org.jsoup.nodes.Document;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.*;
+import java.util.List;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
-
-/**
- *
- * @author aaron
- */
 public class JobFinder3{
     
     public static void main(String[] args) throws Exception {
-        
-        int status;
 
     while(true){
         
         //Initialize Attributes
-        int  i, j, x, y, b, c;
-        int z = 0, rowcount = 0, row = 0, a = 0, d = 0;
+        int  i, x;
+        int z = 0, NumNotInDB = 0;
         JsonObject jsonObject;
-        String[] IDStr = new String[20000];
-        JobAdd[] Seek = new JobAdd[20000];
-        String[] IDOld = new String[20000];
-        String[] titleStr = new String[20000];
-        String[] locationStr = new String[20000];
-        String[] NameStr = new String[20000];
-        String[] ageStr = new String[20000];
-        JobAdd[] InsertList = new JobAdd[20000];
-        String[] URLListDB = new String[20000];
         
         /*Get all 13 pages of gumtrees job listing. When there are 96 results
         Per page on gumtree there are 13 pages.*/
         /*New method to make sure that the new ID's havent been run through 
         already*/
         Connection conn = DBConnect.Connect();
-        try {
-
-           //SQL statement
-           Statement stmt = (Statement) conn.createStatement();
-           String query = "SELECT UniqueID FROM jobfinder3.jf3";
-
-           //Obtain the results
-           ResultSet Results = stmt.executeQuery(query);
-
-           //Find out how many null results there were for Description
-           if (Results.last()) {
-               
-             row = Results.getRow();
-             Results.beforeFirst();
-             
-           }
-           while (Results.next() && a <= row) {
-
-               // do your standard per row stuff 
-               IDOld[a] = Results.getString("ID");
-
-               a = a + 1;
-
-           }
-
-       } catch(SQLException e) {
-
-           //System.err.println(e);
-
-       }
         
-   jsonObject = WebScrape.JSONConnect("https://chalice-search-api.cloud.seek.c"+
-           "om.au/search?siteKey=AU-Main&sourcesystem=houston&userqueryid=27f4"+
-           "b80a6ed27e5e7adc7dee12103105-7545086&userid=d77ce28bc3ffd7b2db3b87"+
-           "7dde5f0bda&usersessionid=d77ce28bc3ffd7b2db3b877dde5f0bda&eventCap"+
-           "tureSessionId=0e1df78bf87292579e2b14f76000da90&where=All+Perth+WA&"+
-           "page=", "&seekSelectAllPages=true&include=seodata&isDesktop=true",+
-                   1);
-   
-   int totalCount = Integer.parseInt(jsonObject.get("totalCount").toString());
-   
-   int NumPages = totalCount/21;
+        //Get an array of all of the adds in the DB
+        ResultSet IDs = DBConnect.ID(conn, "Seek");
+        int rowcount = DBConnect.NumAddsIn(IDs);
+        String[] AddsInDB = new String[rowcount];
+        AddsInDB = DBConnect.AlreadyIn(IDs, rowcount);
+        
+        jsonObject = WebScrape.JSONConnect("https://chalice-search-api.cloud.seek.c"+
+                "om.au/search?siteKey=AU-Main&sourcesystem=houston&userqueryid=27f4"+
+                "b80a6ed27e5e7adc7dee12103105-7545086&userid=d77ce28bc3ffd7b2db3b87"+
+                "7dde5f0bda&usersessionid=d77ce28bc3ffd7b2db3b877dde5f0bda&eventCap"+
+                "tureSessionId=0e1df78bf87292579e2b14f76000da90&where=All+Perth+WA&"+
+                "page=", "&pageSize=100&seekSelectAllPages=true&include=seodata&isD"+
+                "esktop=true&sortmode=ListedDate", + 1);
+
+        //Number of job adds
+        int AddsOnline = Integer.parseInt(jsonObject.get("totalCount").toString());
+        
+        JobAdd[] Seek = new JobAdd[AddsOnline];
+        
+        String[] IDStr = new String[AddsOnline];
+        String[] titleStr = new String[AddsOnline];
+        String[] locationStr = new String[AddsOnline];
+        String[] NameStr = new String[AddsOnline];
+        String[] ageStr = new String[AddsOnline];
+        String[] JobType = new String[AddsOnline];
+        String[] SalaryType = new String[AddsOnline];
+        
+       //System.out.println(AddsOnline);
+
+        int NumPages = AddsOnline/101;
         
     /*Output for this method is array of JSON*/
     /* THERE NEEDS TO BE A BREAK FROM LOOP IF THERE IS A DUPLICATE ID */
@@ -103,16 +74,19 @@ public class JobFinder3{
         "f4b80a6ed27e5e7adc7dee12103105-7545086&userid=d77ce28bc3ffd7b2db3b87"+
         "7dde5f0bda&usersessionid=d77ce28bc3ffd7b2db3b877dde5f0bda&eventCap"+
         "tureSessionId=0e1df78bf87292579e2b14f76000da90&where=All+Perth+WA&"+
-        "page=", "&seekSelectAllPages=true&include=seodata&isDesktop=true",i);
+        "page=", "&pageSize=100&seekSelectAllPages=true&include=seodata&isDesk"+
+        "top=true&sortmode=ListedDate", i);
 
         //Naviagate down the JSON Tree and obtain appropriate information.
         JsonElement data = jsonObject.get("data");
         JsonArray resultListArr = data.getAsJsonArray();
 
        //System.out.println(resultListArr.toString());
-
+       
+      //System.out.println("Page " + i + " of " + NumPages + "\n");
+       
         //Get all of the result List (0 - 95)
-        for(x=0; x <= 21; x++, z++){
+        for(x=0; x <= 101; x++, z++){
 
             try {
 
@@ -124,6 +98,8 @@ public class JobFinder3{
                 //Data we care about
                 JsonElement id = EcsObj.get("id");
                //System.out.println(id);
+                JsonElement jobType = EcsObj.get("workType");
+                JsonElement salary = EcsObj.get("salary");
                 JsonElement title = EcsObj.get("title");
                 JsonElement location = EcsObj.get("area"); //dif used to be location
                 JsonElement age = EcsObj.get("listingDate"); //Needs to be formatted
@@ -131,39 +107,32 @@ public class JobFinder3{
                 //Naviagate down the JSON Tree and obtain appropriate information.
                 JsonElement advertiser = EcsObj.get("advertiser");
                 String[] advertiserArr = advertiser.toString().split("description\":\"");
-                //System.out.println(advertiserArr[1]);
-                //System.out.println(Name.toString());
-                //System.out.println(age);
-                //NEXT TWO ARE ON PAGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //JsonElement salarytype = data2Obj.get("salarytype");!!!!!!!!!!!!!!!!
-                //JsonElement jobtype = data2Obj.get("jobtype");!!!!!!!!!!!!!!!!!!!!!!!
 
                 //Make them strings
-                IDStr[z] = "S" + id.toString();
+                IDStr[z] = id.toString();
                 //System.out.println(age);
-                //System.out.println(IDStr[z]);
+               //System.out.println(IDStr[z]+"\n");
 
                 //If the add has already been ran through, this is the last
                 //page of the JSON query
                 //If the ID in the DB
-                for(b=0; b <= a; b++){
+                for(int b=0; b <= AddsInDB.length; b++){
 
-                    if(IDStr[z].equals(IDOld[b]) == true){
+                    if(IDStr[z].equals(AddsInDB[b]) == true){
 
                         //Break from the JSON loop
                         i = NumPages;
-
-                        //Skip a JSON Array
                         z++;
-
                     }
 
                 }
                 IDStr[z] = id.toString();
+                //System.out.println(i);
                //System.out.println(IDStr[z]);
                 NameStr[z] = advertiserArr[1].replaceAll("\"}", "");
                 NameStr[z] = NameStr[z].replaceAll("'", "");
                 NameStr[z] = NameStr[z].replaceAll("&", "and");
+               //System.out.println(NameStr[z]);
                 titleStr[z] = title.toString().substring(1, 
                         title.toString().length()-1);
                 titleStr[z] = titleStr[z].replaceAll("'", "");
@@ -172,10 +141,15 @@ public class JobFinder3{
                         location.toString().length()-1);
                 ageStr[z] = age.toString().substring(1, 
                         age.toString().length()-1);
+                JobType[z] = jobType.toString().substring(1, 
+                        jobType.toString().length()-1);
+                SalaryType[z] = salary.toString().substring(1, 
+                        salary.toString().length()-1);
 
+                
                 Seek[z] = new JobAdd(IDStr[z],locationStr[z],
-                        "","","Seek",ageStr[z],
-                        titleStr[z], 1337);
+                            SalaryType[z],JobType[z],"Seek",ageStr[z],
+                            titleStr[z], 1337);
                 Seek[z].Name = NameStr[z];
                 
                //System.out.println(Seek[z].Age);
@@ -188,133 +162,101 @@ public class JobFinder3{
 
             }
 
-            try {
+            }
+        
+        }
+    
+    System.out.println(z);
+    
+    for(x = 0; x <= z; x++){
+    
+    for(String InDB: AddsInDB){
 
-                System.out.println(Seek[z].Title);
-                System.out.println(Seek[z].URL);
+                try{
 
-                //SQL statement
-                Statement stmt = (Statement) conn.createStatement();
-                String query = "SELECT URL FROM jobfinder3.jf3 WHERE URL "+
-                        "!= '" + Seek[z].URL + "'";
+                    if(Seek[x].ID.equals(InDB)){
 
-                //Obtain the results
-                ResultSet Results = stmt.executeQuery(query);
+                        Seek[x].InDB = true;
+                        
+                       System.out.println("\n" + x + " done out of " + z + "\nMatching RESULT!!!\n");
+                       System.out.println("\nObjects ID:\n" + Seek[x].ID + "\nID in DB:");
+                       System.out.println(InDB);
+                        
+                        x++; //MOVE ON TO NEXT ID ONLINE AS ITS TRUE
 
-                c = 0;
+                    }else{
 
-                //Find out how many null results there were for Description
-                if (Results.last()) {
-                  rowcount = Results.getRow();
-                  Results.beforeFirst();
-                }
-                while (Results.next() && c <= rowcount) {
-
-                    // do your standard per row stuff 
-                    URLListDB[c] = Results.getString("URL");
-                   //System.out.println(URLListDB[c] + "\n=======\n"+ Gumtree[z].URL + "\n======\n");
-                    //System.out.println(Gumtree[z].URL);
-
-                    //If the URL is not in the database it needs to be added to
-                    //the list.
-                    if(URLListDB[c].equals(Seek[z].URL) != true){
-
-                       //System.out.println(Gumtree[z].URL);
-                       InsertList[z] = Seek[z];
-                       //System.out.println(InsertList[c].URL);
-
-                        c = c + 1;
-                        d = d + 1;
+                        //if it's not equal
+                        Seek[x].InDB = false;
+                        
+                       System.out.println("\n" + x + " done out of " + z + "\nFalse RESULT!!!\n");
+                       System.out.println("\nObjects ID:\n" + Seek[x].ID + "\nID in DB:");
+                       System.out.println(InDB);
 
                     }
 
-                    c = c + 1;
+                }catch(Exception e){
+
 
                 }
 
-            } catch(SQLException e) {
-
-                //There will be an error if Unique ID is not unique.
-                //System.err.println(e);
-
-            } catch(Exception e){
-
-
-
             }
-
-                //System.out.println(URLList[z]);
-
-            }
-
+    
         }
     
-        z = 0; //Reset the z counter
+    z = 0;
         
-       //System.out.println(rowcount);
-    
         //Output for unparsed HTML
-        String[] UnParsed = new String[rowcount];
-        String[] Bulleits = new String[rowcount];
-        String[] Descriptions1 = new String[rowcount];
-        String[] Descriptions = new String[rowcount];
-        String[] JobType = new String[rowcount];
-        String[] SalaryType = new String[rowcount];
+        String[] UnParsed = new String[z];
+        String[] Descriptions = new String[z];
+       //System.out.println(Seek[0]);
         
-        for(x=0; x < rowcount; x++){
+        for(x=0; x < Seek.length; x++){ //x < rowcount
             
-           
             try{
-                
-                UnParsed[x] = WebScrape.Connect(InsertList[x].URL, UnParsed[x]);
-                //Re try connection if it failed
-                if(UnParsed[x].contains("https://")){
-                
-                    UnParsed[x] = WebScrape.Connect(InsertList[x].URL, UnParsed[x]);
-                
-                }
-                
-                Document doc = WebScrape.Parse(UnParsed[x]);
-                
-                System.out.println(doc.toString());
-                
-                Bulleits[x] = WebScrape.Extract(doc, "job-template__wrapper");
-                System.out.println(Bulleits[x]);
-                Descriptions1[x] = WebScrape.Extract(doc, "templatetext");
-                System.out.println(Descriptions1[x]);
-                Descriptions[x] = Bulleits[x] + Descriptions1[x];
-                System.out.println(Descriptions[x]);
-                JobType[x] = WebScrape.Extract(doc, "job-detail-work-type");
-                System.out.println(JobType[x]);
-                
-                System.out.println(Descriptions[x]);
             
+            if(Seek[x].InDB = false){
+                
+                    System.out.println(Seek[x].ID);
+                   //System.out.println(Seek[x].ID);
+                    UnParsed[x] = WebScrape.Connect(Seek[x].URL, UnParsed[x]);
+                    //Re try connection if it failed
+                    if(UnParsed[x].contains("https://")){
+
+                        UnParsed[x] = WebScrape.Connect(Seek[x].URL, UnParsed[x]);
+
+                    }
+
+                    Document doc = WebScrape.Parse(UnParsed[x]);
+
+                    //WebScrape.ClassName(doc);
+
+                    //Job Description
+                    Elements DescriptionEl = doc.getElementsByClass("_2e4Pi2B"); //"job-template__wrapper"
+                    Descriptions[x] = DescriptionEl.text();
+
+                   //System.out.println(Descriptions[x]);
+
                 //If the description wasnt there the add was taken down
-                if(Descriptions[x].isEmpty() == true){
-
-                    InsertList[x].URL = null;
-                    rowcount = rowcount - 1;
-
-                }else if (InsertList[x].ID != null){
-                  //System.out.println(Names[x]);
-
-                   InsertList[x].SetDesc(Descriptions[x]);
-                   InsertList[x].TitleDesc();
-                  //System.out.println(Gumtree[x].Title + "\n" + InsertList[x].Name + "\n" + InsertList[x].Description);
-                   InsertList[x].DBInsert(conn);   
-
-                }
                 
-            }catch(Exception e){
-                
-                
-                
-            }
+                    
+                    Seek[x].SetDesc(Descriptions[x]);
+                    Seek[x].TitleDesc();
+                    Seek[x].DBInsert(conn);
          
+                
+                
             }
+            
+            }catch(Exception e){
+                    
+                    
+                    
+                }
         //BEGIN THE PROCESS FOR SEEK HERE
         }
     
     }
     
+}
 }

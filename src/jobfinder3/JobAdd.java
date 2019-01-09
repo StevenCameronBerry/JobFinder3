@@ -23,6 +23,7 @@ public class JobAdd {
     public int Distance;
     private String AgeT;
     private int AgeMH;
+    public boolean InDB = true;
 
     JobAdd(String ID, String Location, String SalaryType, String JobType, 
             String Website, String AgeStr, String Title, int Distance){
@@ -155,7 +156,7 @@ public class JobAdd {
            System.err.println(e);
 
         }
-
-    }
+        
+        }
     
 }
