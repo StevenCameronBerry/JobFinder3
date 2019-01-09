@@ -154,23 +154,24 @@ public class JobFinder3{
     
         //Find the number of new adds
         int MaxOnlineDB = -1;
+        int NewAdds = -1;
         if(AddsOnline > AddsInDB.length){
             
-            int NewAdds = AddsOnline - AddsInDB.length;
+            NewAdds = AddsOnline - AddsInDB.length;
             System.out.println(NewAdds + " new adds found");
             MaxOnlineDB = AddsOnline;
             
         } else {
             
-            int NewAdds = AddsInDB.length - AddsOnline;
+            NewAdds = AddsInDB.length - AddsOnline;
             System.out.println(NewAdds + " new adds found");
             MaxOnlineDB = AddsInDB.length;
             
         }
         
-        
+        int NumInDB = 0;
         //Assign the Objects based on wether or not they are in the DB
-        for(x = 0; x <= MaxOnlineDB; x++){
+        for(x = 0; x <= Seek.length; x++){
 
             for(String InDB: AddsInDB){
 
@@ -180,10 +181,12 @@ public class JobFinder3{
 
                         Seek[x].InDB = true;
                         
-                        System.out.println("\n" + x + " done out of " + MaxOnlineDB + "\nMatching RESULT!!!\n");
+                        System.out.println("\n" + x + " done out of " + NewAdds + "\nMatching RESULT!!!\n");
                         System.out.println("\nObjects ID:\n" + Seek[x].ID + "\nID in DB:");
                         System.out.println(InDB);
                         
+                        NumInDB++;
+                        x++;
                         
 
                     }else{
@@ -196,6 +199,8 @@ public class JobFinder3{
                         System.out.println(InDB);
 
                     }
+                    
+                    x++;
 
                 }catch(Exception e){
 
@@ -211,7 +216,7 @@ public class JobFinder3{
         String[] UnParsed = new String[z];
         String[] Descriptions = new String[z];
         
-        for(x=0; x < AddsOnline; x++){ //x < rowcount
+        for(x=0; x < NumInDB; x++){ //x < rowcount
            
             try{
                 
