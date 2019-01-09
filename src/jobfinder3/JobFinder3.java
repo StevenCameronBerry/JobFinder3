@@ -8,11 +8,7 @@ package jobfinder3;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
-import com.mysql.cj.xdevapi.Result;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -83,7 +79,7 @@ public class JobFinder3{
 
        //System.out.println(resultListArr.toString());
        
-      //System.out.println("Page " + i + " of " + NumPages + "\n");
+       System.out.println("Page " + i + " of " + NumPages + "\n");
        
         //Get all of the result List (0 - 95)
         for(x=0; x <= 101; x++, z++){
@@ -116,17 +112,7 @@ public class JobFinder3{
                 //If the add has already been ran through, this is the last
                 //page of the JSON query
                 //If the ID in the DB
-                for(int b=0; b <= AddsInDB.length; b++){
-
-                    if(IDStr[z].equals(AddsInDB[b]) == true){
-
-                        //Break from the JSON loop
-                        i = NumPages;
-                        z++;
-                    }
-
-                }
-                IDStr[z] = id.toString();
+                
                 //System.out.println(i);
                //System.out.println(IDStr[z]);
                 NameStr[z] = advertiserArr[1].replaceAll("\"}", "");
@@ -166,11 +152,27 @@ public class JobFinder3{
         
         }
     
-    System.out.println(z);
-    
-    for(x = 0; x <= z; x++){
-    
-    for(String InDB: AddsInDB){
+        //Find the number of new adds
+        int MaxOnlineDB = -1;
+        if(AddsOnline > AddsInDB.length){
+            
+            int NewAdds = AddsOnline - AddsInDB.length;
+            System.out.println(NewAdds + " new adds found");
+            MaxOnlineDB = AddsOnline;
+            
+        } else {
+            
+            int NewAdds = AddsInDB.length - AddsOnline;
+            System.out.println(NewAdds + " new adds found");
+            MaxOnlineDB = AddsInDB.length;
+            
+        }
+        
+        
+        //Assign the Objects based on wether or not they are in the DB
+        for(x = 0; x <= MaxOnlineDB; x++){
+
+            for(String InDB: AddsInDB){
 
                 try{
 
@@ -178,20 +180,20 @@ public class JobFinder3{
 
                         Seek[x].InDB = true;
                         
-                       System.out.println("\n" + x + " done out of " + z + "\nMatching RESULT!!!\n");
-                       System.out.println("\nObjects ID:\n" + Seek[x].ID + "\nID in DB:");
-                       System.out.println(InDB);
+                        System.out.println("\n" + x + " done out of " + MaxOnlineDB + "\nMatching RESULT!!!\n");
+                        System.out.println("\nObjects ID:\n" + Seek[x].ID + "\nID in DB:");
+                        System.out.println(InDB);
                         
-                        x++; //MOVE ON TO NEXT ID ONLINE AS ITS TRUE
+                        
 
                     }else{
 
                         //if it's not equal
                         Seek[x].InDB = false;
                         
-                       System.out.println("\n" + x + " done out of " + z + "\nFalse RESULT!!!\n");
-                       System.out.println("\nObjects ID:\n" + Seek[x].ID + "\nID in DB:");
-                       System.out.println(InDB);
+                        System.out.println("\n" + x + " done out of " + MaxOnlineDB + "\nFalse RESULT!!!\n");
+                        System.out.println("\nObjects ID:\n" + Seek[x].ID + "\nID in DB:");
+                        System.out.println(InDB);
 
                     }
 
@@ -201,24 +203,22 @@ public class JobFinder3{
                 }
 
             }
-    
+
         }
-    
-    z = 0;
+        
         
         //Output for unparsed HTML
         String[] UnParsed = new String[z];
         String[] Descriptions = new String[z];
-       //System.out.println(Seek[0]);
         
-        for(x=0; x < Seek.length; x++){ //x < rowcount
-            
+        for(x=0; x < AddsOnline; x++){ //x < rowcount
+           
             try{
-            
-            if(Seek[x].InDB = false){
                 
-                    System.out.println(Seek[x].ID);
-                   //System.out.println(Seek[x].ID);
+                System.out.println(Seek[x].Title + " in DB: " + Seek[x].InDB);
+                
+                if(Seek[x].InDB == false){
+                
                     UnParsed[x] = WebScrape.Connect(Seek[x].URL, UnParsed[x]);
                     //Re try connection if it failed
                     if(UnParsed[x].contains("https://")){
@@ -243,20 +243,20 @@ public class JobFinder3{
                     Seek[x].SetDesc(Descriptions[x]);
                     Seek[x].TitleDesc();
                     Seek[x].DBInsert(conn);
-         
+                    
+                }
+                
+                
+            }catch(Exception e){
+                
                 
                 
             }
-            
-            }catch(Exception e){
-                    
-                    
-                    
-                }
+         
+            }
         //BEGIN THE PROCESS FOR SEEK HERE
         }
     
     }
     
-}
 }
