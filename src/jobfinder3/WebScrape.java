@@ -24,6 +24,16 @@ public class WebScrape {
     
     private static int y, status;
     private static String Descriptions, JSONStr;
+    private String URL, UnParsed;
+    private int[] x;
+    
+    WebScrape(String URL, String UnParsed, int[] x){
+        
+        this.URL = URL;
+        this.UnParsed = UnParsed;
+        this.x = x;
+        
+    }
     
     //Method to connect to JSON queries
     static JsonObject JSONConnect(String Query1, String Query2, int i) throws 
@@ -36,6 +46,16 @@ public class WebScrape {
 
         //Response type
         status = con.getResponseCode();
+        
+        //For failed connections
+        if(status != 200){
+            
+            con.disconnect();
+            con = (HttpURLConnection) url.openConnection();
+            Thread.sleep(1000);
+            con.setRequestMethod("GET");
+            
+        }
 
         ////System.out.println(status);
 
@@ -64,14 +84,23 @@ public class WebScrape {
 
     //Connect to each URL in an array.
     //IF THE OUTPUT OF THIS DOES NOT CONTAIN "https://" IT IS NOT A URL EVERYTHING PARSED
-    static String Connect(String URLList, String UnParsed){
+    String Connect(){
 
         try{
 
-            URL url = new URL(URLList);
+            URL url = new URL(this.URL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             status = con.getResponseCode();
+            
+            //For failed connections
+            if(status != 200){
+
+                Thread.sleep(1000);
+                con.setRequestMethod("GET");
+
+            }
+            
             BufferedReader in = new BufferedReader(
             new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -80,6 +109,8 @@ public class WebScrape {
                 content.append(inputLine);
             }
             in.close();
+            
+            System.out.println(x[2] + 1 + " add descriptions scraped out of " + x[1] + " descriptions to be scraped.");
 
             try{
 
@@ -88,7 +119,7 @@ public class WebScrape {
 
             } catch(Exception e){
 
-                return URLList + "Responded but did not parse";
+                return URL + "Responded but did not parse";
 
             }
             
@@ -96,8 +127,8 @@ public class WebScrape {
         } catch(Exception e){
 
            System.out.println(e + " was the error!!!!");
-           System.out.println(URLList + " did not respond");
-           return URLList;
+           System.out.println(URL + " did not respond");
+           return URL;
 
         }
     

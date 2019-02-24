@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jobfinder3;
+package WebScraper;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
  * @author aaron
  */
-public class JobAdd {
+public class JobAddOrig {
         
     public String ID, Title, Name, Description, Location, SalaryType,
             JobType, Website, UniqueID, URL, Title_Desc, Age;
@@ -25,7 +24,7 @@ public class JobAdd {
     private int AgeMH;
     public boolean InDB = true;
 
-    JobAdd(String ID, String Location, String SalaryType, String JobType, 
+    JobAddOrig(String ID, String Location, String SalaryType, String JobType, 
             String Website, String AgeStr, String Title, int Distance){
 
         //Standard constructor paramaters

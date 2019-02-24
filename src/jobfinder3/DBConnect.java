@@ -22,7 +22,6 @@ public class DBConnect{
     private static final String PASSWORD = "ZZaq32!!";
     private static final String CONN_STRING = "jdbc:mysql://localhost:3306/job"+
             "finder3";
-    private static int rowcount = 0, x = 0;
     
     static Connection Connect(){
             
@@ -92,6 +91,8 @@ public class DBConnect{
     //Get the number of rows in a DB.
     static int NumAddsIn(ResultSet Results) throws Exception{
         
+        int rowcount = 0;
+        
         //Find out how many null results there were for Description
         if (Results.last()) {
           rowcount = Results.getRow();
@@ -104,6 +105,8 @@ public class DBConnect{
     
     //Get an array of Job adds already in the DB
     static String[] AlreadyIn(ResultSet Results, int rowcount) throws Exception{
+        
+        int x = 0;
         
         String[] InDB = new String[rowcount];
 
