@@ -5,9 +5,6 @@
  */
 package jobfinder3;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -27,20 +24,11 @@ public class WebScrape {
     private String URL, UnParsed;
     private int[] x;
     
-    WebScrape(String URL, String UnParsed, int[] x){
-        
-        this.URL = URL;
-        this.UnParsed = UnParsed;
-        this.x = x;
-        
-    }
-    
     //Method to connect to JSON queries
-    static JsonObject JSONConnect(String Query1, String Query2, int i) throws 
-            Exception{
+    static JsonObject JSONConnect(String Website) throws Exception{
         
         //Web Scrape all of the job adds off of gumtree
-        URL url = new URL(Query1 + i + Query2);
+        URL url = new URL(Website);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
 
@@ -84,11 +72,11 @@ public class WebScrape {
 
     //Connect to each URL in an array.
     //IF THE OUTPUT OF THIS DOES NOT CONTAIN "https://" IT IS NOT A URL EVERYTHING PARSED
-    String Connect(){
+    static String Connect(String URL, int[] x){
 
         try{
 
-            URL url = new URL(this.URL);
+            URL url = new URL(URL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             status = con.getResponseCode();
@@ -114,7 +102,7 @@ public class WebScrape {
 
             try{
 
-                UnParsed = content.toString();
+                String UnParsed = content.toString();
                 return UnParsed;
 
             } catch(Exception e){

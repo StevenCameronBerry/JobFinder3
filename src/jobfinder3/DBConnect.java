@@ -123,4 +123,28 @@ public class DBConnect{
         
     }
     
+    static void InsertAdd(JobAdd add, int[] Counters, Connection conn) 
+            throws SQLException{
+
+        Statement stmt = (Statement) conn.createStatement();
+        String insert = "INSERT INTO jobfinder3.jf3 (uniqueID, " + 
+                "ID, Title, Location, Distance_km, Age, URL, " +
+                "SalaryType, JobType, Description, CompanyName, " +
+                "`Title+Desc`, Website, AdvertiserName)" +
+                " VALUES ('" + add.GetUniqueID() + "', '" + add.GetID() + 
+                "', '" + add.GetTitle() + "', '" + add.GetLocation() + 
+                "', '" + add.GetDistance_km() + "', '"
+                + add.GetAge() + "', '" + add.GetURL() + "', '" + 
+                add.GetSalaryType() + "', '" + add.GetJobType() + "', '" +
+                add.GetDescription() + "', '" + add.GetCompanyName() + "', '" +
+                add.GetTitleDesc() + "', '" + add.GetWebsite() + "', '" + 
+                add.GetAdvertiserName() + "')";
+        stmt.executeUpdate(insert);
+
+        System.out.println(add.toString());
+
+        System.out.println(Counters[2] + 1 + " new adds inserted into the DB out of " + Counters[1]);
+        
+    }
+    
 }
