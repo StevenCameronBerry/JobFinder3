@@ -20,9 +20,9 @@ of the program are:
     2. Parse
     3. Build
 */
+
 package jobfinder3;
 
-import com.google.gson.JsonObject;
 import java.sql.*;
 
 public class JobFinder3{
@@ -39,7 +39,6 @@ public class JobFinder3{
         
             //Initialize Attributes
             int  Page = 1, AddItr, z = 0, q = 0, PageSize, a = 0;
-            JsonObject jsonObject;
             Scrape ScrapeObj;
             Parse ParseObj;
             
@@ -67,13 +66,46 @@ public class JobFinder3{
                     builder = new JobAddBuilderGumtree();
                     engineer = new JobAddEngineerGumtree(builder);
                     PageSize = 96;
+                    
                     break;
 
-                //case "Indeed":
+                case "Indeed":
                     
-                    //break;
-                // You can have any number of case statements.
-                default : // Optionals
+                    System.out.println("\nINDEED INDEED INDEED INDEED");
+                    
+                    ScrapeObj = new ScrapeIndeed();
+                    ParseObj = new ParseIndeed();
+                    builder = new JobAddBuilderIndeed();
+                    engineer = new JobAddEngineerIndeed(builder);
+                    PageSize = 50;
+                    
+                    break;
+
+//                case "Facebook" :
+//                    
+//                    System.out.println("\nGUMTREE GUMTREE GUMTREE GUMTREE");
+//                    
+//                    ScrapeObj = new ScrapeGumtree();
+//                    ParseObj = new ParseGumtree();
+//                    builder = new JobAddBuilderGumtree();
+//                    engineer = new JobAddEngineerGumtree(builder);
+//                    PageSize = 96;
+//                    
+//                    break;
+//                    
+//                case "Linkedin" :
+//                    
+//                    System.out.println("\nGUMTREE GUMTREE GUMTREE GUMTREE");
+//                    
+//                    ScrapeObj = new ScrapeGumtree();
+//                    ParseObj = new ParseGumtree();
+//                    builder = new JobAddBuilderGumtree();
+//                    engineer = new JobAddEngineerGumtree(builder);
+//                    PageSize = 96;
+//                    
+//                    break;
+                    
+                default : //Optionals
 
                     ScrapeObj = new ScrapeSeek();
                     ParseObj = new ParseSeek();
@@ -135,10 +167,9 @@ public class JobFinder3{
                 
                 //Number of adds on the page.
                 int NumAddsPage = ParseObj.NumAddsPage();
-                
 
                 //Get all of the result List (0 - 95)
-                PageLoop: for(a=0,AddItr=0; AddItr <= NumAddsPage; AddItr++, z++, a++){
+                PageLoop: for(a=0,AddItr=0; AddItr < NumAddsPage; AddItr++, z++, a++){
 
                     //PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE 
                     //Extraction process
@@ -161,8 +192,8 @@ public class JobFinder3{
                     if (DBCheck == true){
                         
                         System.out.println(a + " new adds scrapped from page.");
-                        System.out.println(z + " adds scraped in total out of " + AddsOnline
-                        + " adds online.");
+                        System.out.println(z + " adds scraped in total out of "
+                                + AddsOnline + " adds online.");
                         break BookLoop;
                         
                     }
@@ -180,8 +211,8 @@ public class JobFinder3{
                 }
                     //Some logging
                     System.out.println(a + " new adds scrapped from page.");
-                    System.out.println(z + " adds scraped in total out of " + AddsOnline
-                            + " adds online.");
+                    System.out.println(z + " adds scraped in total out of " + 
+                            AddsOnline + " adds online.");
 
             }
             
@@ -192,7 +223,11 @@ public class JobFinder3{
 
                 //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE
                 int[] Counters = new int[]{x,z,q};
-                String URL = ScrapeObj.BuildString(Integer.parseInt(add[q].GetID()));
+                String URL = ScrapeObj.BuildString(Integer.parseInt(add[q].
+                        GetID()));
+                System.out.println(Counters[2] + 1 + 
+                        " add descriptions scraped out of " + Counters[1] + 
+                        " descriptions to be scraped.");
                 ScrapeObj.SetString(URL);
                 ScrapeObj.ScrapeIndx(Counters);
 
@@ -228,7 +263,7 @@ public class JobFinder3{
 
             //Increase the iterator for which website to scrape from
             itr++;
-            if(itr == 2){
+            if(itr == 3){
 
                 itr = 0; //Go back to zero or the adds index will be out of range.
 
@@ -237,4 +272,5 @@ public class JobFinder3{
         }
     
     }
+    
 }

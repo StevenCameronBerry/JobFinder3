@@ -16,148 +16,139 @@ import java.util.Calendar;
  * @author aaron
  */
 public class JobAddOrig {
-        
-    public String ID, Title, Name, Description, Location, SalaryType,
-            JobType, Website, UniqueID, URL, Title_Desc, Age;
-    public int Distance;
-    private String AgeT;
-    private int AgeMH;
-    public boolean InDB = true;
 
-    JobAddOrig(String ID, String Location, String SalaryType, String JobType, 
-            String Website, String AgeStr, String Title, int Distance){
+	public String ID, Title, Name, Description, Location, SalaryType, JobType, Website, UniqueID, URL, Title_Desc, Age;
+	public int Distance;
+	private String AgeT;
+	private int AgeMH;
+	public boolean InDB = true;
 
-        //Standard constructor paramaters
-        this.ID = ID;
-        this.Location = Location;
-        this.SalaryType = SalaryType;
-        this.JobType = JobType;
-        this.Website = Website;
-        this.Title = Title;
-        this.Distance = Distance;
+	JobAddOrig(String ID, String Location, String SalaryType, String JobType, String Website, String AgeStr,
+			String Title, int Distance) {
 
-        //Ones created from input
-        this.UniqueID = this.Website.charAt(0) + this.ID;
-        //URL
-        if(this.Website.equals("Gumtree")){
+		// Standard constructor paramaters
+		this.ID = ID;
+		this.Location = Location;
+		this.SalaryType = SalaryType;
+		this.JobType = JobType;
+		this.Website = Website;
+		this.Title = Title;
+		this.Distance = Distance;
 
-            this.URL = "https://www.gumtree.com.au/s-ad/" + this.ID;
+		// Ones created from input
+		this.UniqueID = this.Website.charAt(0) + this.ID;
+		// URL
+		if (this.Website.equals("Gumtree")) {
 
-        }else if(this.Website.equals("Seek")){
+			this.URL = "https://www.gumtree.com.au/s-ad/" + this.ID;
 
-            this.URL = "https://www.seek.com.au/job/" + this.ID;
+		} else if (this.Website.equals("Seek")) {
 
-        }
+			this.URL = "https://www.seek.com.au/job/" + this.ID;
 
-        //Age
-        //Get the current time in this format YYYY-MM-DD HH:MM:SS
-        if(AgeStr.equals("Yesterday") == true){
+		}
 
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, -1);
-            String Yesterday = new SimpleDateFormat
-                ("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
-            this.Age = Yesterday;
+		// Age
+		// Get the current time in this format YYYY-MM-DD HH:MM:SS
+		if (AgeStr.equals("Yesterday") == true) {
 
-        }else if(AgeStr.contains("minutes ago") == true){
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -1);
+			String Yesterday = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
+			this.Age = Yesterday;
 
-            //Get how many minutes it was
-            AgeT = AgeStr.replace(" minutes ago", "");
-            AgeMH = Integer.parseInt(AgeT);
+		} else if (AgeStr.contains("minutes ago") == true) {
 
-            //Format Data
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.MINUTE, - AgeMH);
-            String MinsAgo = new SimpleDateFormat
-                ("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
-            this.Age = MinsAgo;
+			// Get how many minutes it was
+			AgeT = AgeStr.replace(" minutes ago", "");
+			AgeMH = Integer.parseInt(AgeT);
 
-        }else if(AgeStr.contains("hours ago") == true){
+			// Format Data
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MINUTE, -AgeMH);
+			String MinsAgo = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
+			this.Age = MinsAgo;
 
-            //Get how many hours it was
-            AgeT = AgeStr.replace(" hours ago", "");
-            AgeMH = Integer.parseInt(AgeT);
+		} else if (AgeStr.contains("hours ago") == true) {
 
-            //Format Data
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.HOUR, - AgeMH);
-            String HoursAgo = new SimpleDateFormat
-                ("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
-            this.Age = HoursAgo;
+			// Get how many hours it was
+			AgeT = AgeStr.replace(" hours ago", "");
+			AgeMH = Integer.parseInt(AgeT);
 
-        }else{ //If it just had a date listed
+			// Format Data
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR, -AgeMH);
+			String HoursAgo = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss").format(cal.getTime());
+			this.Age = HoursAgo;
 
-            String AgeFormat1 = AgeStr.replaceAll("T", " ");
-            String AgeFormat2 = AgeFormat1.replaceAll("Z", "");
-            
-            this.Age = AgeFormat2;
+		} else { // If it just had a date listed
 
-        }
+			String AgeFormat1 = AgeStr.replaceAll("T", " ");
+			String AgeFormat2 = AgeFormat1.replaceAll("Z", "");
 
-    }
+			this.Age = AgeFormat2;
 
-    //Setters
-    void SetName(String NameRaw){
+		}
 
-        //Title and Description
-        this.Name = NameRaw.replaceAll("'", "");
-        this.Name = this.Name.replaceAll("&", "and");
+	}
 
-    }
+	// Setters
+	void SetName(String NameRaw) {
 
-    void SetDesc(String DescRaw){
+		// Title and Description
+		this.Name = NameRaw.replaceAll("'", "");
+		this.Name = this.Name.replaceAll("&", "and");
 
-        this.Description = DescRaw.replaceAll("'", "");
-        this.Description = this.Description.replaceAll("&", "and");
+	}
 
-    }
+	void SetDesc(String DescRaw) {
 
-    //Method to combine Title and Description
-    void TitleDesc(){
+		this.Description = DescRaw.replaceAll("'", "");
+		this.Description = this.Description.replaceAll("&", "and");
 
-        this.Title_Desc = this.Title.toLowerCase() + " || " +
-                this.Description.toLowerCase();
+	}
 
-    }
+	// Method to combine Title and Description
+	void TitleDesc() {
 
-    //Method to insert the data into the DB
-    void DBInsert(Connection conn, int[] Counters){
+		this.Title_Desc = this.Title.toLowerCase() + " || " + this.Description.toLowerCase();
 
-        try {
+	}
 
-            if(this.UniqueID != null){
+	// Method to insert the data into the DB
+	void DBInsert(Connection conn, int[] Counters) {
 
-                Statement stmt = (Statement) conn.createStatement();
-                String insert = "INSERT INTO jobfinder3.jf3 (uniqueID, " + 
-                        "ID, Title, Location, Distance_km, Age, URL, " +
-                        "SalaryType, JobType, Description, Name, " +
-                        "`Title+Desc`, Website)" +
-                        " VALUES ('" + this.UniqueID + "', '" + this.ID + 
-                        "', '" + this.Title + "', '" + this.Location + 
-                        "', '" + this.Distance + "', '"
-                        + this.Age + "', '" + this.URL + "', '" + 
-                        this.SalaryType + "', '" + this.JobType + "', '" +
-                        this.Description + "', '" + this.Name + "', '" +
-                        this.Title_Desc + "', '" + this.Website + "')";
-                stmt.executeUpdate(insert);
-                
-                /*System.out.println("===================\n" + "ID: " + 
-                        this.UniqueID + "\nTite: " + this.Title + 
-                            "\nLocation: " + this.Location + "\nDistance: " +
-                            this.Distance + "\nAge: " + this.Age + "\nURL: " + 
-                            this.URL + "\n===================");*/
-                
-                System.out.println(Counters[2] + 1 + " new adds inserted into the DB out of " + Counters[1]);
+		try {
 
-            }
+			if (this.UniqueID != null) {
 
-        } catch(SQLException e) {
-            
-           System.err.println(e);
-           System.err.println(this.URL);
+				Statement stmt = (Statement) conn.createStatement();
+				String insert = "INSERT INTO jobfinder3.jf3 (uniqueID, "
+						+ "ID, Title, Location, Distance_km, Age, URL, " + "SalaryType, JobType, Description, Name, "
+						+ "`Title+Desc`, Website)" + " VALUES ('" + this.UniqueID + "', '" + this.ID + "', '"
+						+ this.Title + "', '" + this.Location + "', '" + this.Distance + "', '" + this.Age + "', '"
+						+ this.URL + "', '" + this.SalaryType + "', '" + this.JobType + "', '" + this.Description
+						+ "', '" + this.Name + "', '" + this.Title_Desc + "', '" + this.Website + "')";
+				stmt.executeUpdate(insert);
 
-        }
-        
-        }
-    
+				/*
+				 * System.out.println("===================\n" + "ID: " + this.UniqueID +
+				 * "\nTite: " + this.Title + "\nLocation: " + this.Location + "\nDistance: " +
+				 * this.Distance + "\nAge: " + this.Age + "\nURL: " + this.URL +
+				 * "\n===================");
+				 */
+
+				System.out.println(Counters[2] + 1 + " new adds inserted into the DB out of " + Counters[1]);
+
+			}
+
+		} catch (SQLException e) {
+
+			System.err.println(e);
+			System.err.println(this.URL);
+
+		}
+
+	}
+
 }
