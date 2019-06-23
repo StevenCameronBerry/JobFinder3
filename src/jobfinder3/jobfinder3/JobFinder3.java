@@ -24,6 +24,18 @@ of the program are:
 package jobfinder3;
 
 import java.sql.*;
+import com.mysql.cj.util.StringUtils;
+
+//Gumtree Package
+import Gumtree.JobAddBuilderGumtree;
+import Gumtree.JobAddEngineerGumtree;
+import Gumtree.ParseGumtree;
+import Gumtree.ScrapeGumtree;
+//Seek Package
+import Seek.JobAddBuilderSeek;
+import Seek.JobAddEngineerSeek;
+import Seek.ParseSeek;
+import Seek.ScrapeSeek;
 
 public class JobFinder3{
     
@@ -34,6 +46,7 @@ public class JobFinder3{
         int itr = 0;
         JobAddBuilder builder;
         JobAddEngineer engineer;
+        String URL;
 
         MainLoop: while(true){
         
@@ -83,7 +96,7 @@ public class JobFinder3{
 
 //                case "Facebook" :
 //                    
-//                    System.out.println("\nGUMTREE GUMTREE GUMTREE GUMTREE");
+//                    System.out.println("\nFACEBOOK FACEBOOK FACEBOOK FACEBOOK");
 //                    
 //                    ScrapeObj = new ScrapeGumtree();
 //                    ParseObj = new ParseGumtree();
@@ -95,7 +108,7 @@ public class JobFinder3{
 //                    
 //                case "Linkedin" :
 //                    
-//                    System.out.println("\nGUMTREE GUMTREE GUMTREE GUMTREE");
+//                    System.out.println("\nLINKEDIN LINKEDIN LINKEDIN LINKEDIN");
 //                    
 //                    ScrapeObj = new ScrapeGumtree();
 //                    ParseObj = new ParseGumtree();
@@ -223,10 +236,21 @@ public class JobFinder3{
 
                 //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE
                 int[] Counters = new int[]{x,z,q};
-                String URL = ScrapeObj.BuildString(Integer.parseInt(add[q].
-                        GetID()));
+                
+                //If the ID was a string
+                if(StringUtils.isStrictlyNumeric(add[q].GetID())){
+                	
+                	URL = ScrapeObj.BuildString(Integer.parseInt(add[q].
+                            GetID()));
+                	
+                } else { //If it was numeric
+                	
+                	URL = add[q].GetID();
+                	
+                }
+                
                 System.out.println(Counters[2] + 1 + 
-                        " add descriptions scraped out of " + Counters[1] + 
+                        " add descriptions scraped out of " + AddsOnline + 
                         " descriptions to be scraped.");
                 ScrapeObj.SetString(URL);
                 ScrapeObj.ScrapeIndx(Counters);
@@ -263,13 +287,15 @@ public class JobFinder3{
 
             //Increase the iterator for which website to scrape from
             itr++;
-            if(itr == 3){
+            if(itr == 2){//3
 
                 itr = 0; //Go back to zero or the adds index will be out of range.
 
             }
     
         }
+        
+        /*This part of the main algorithm is for actually appling to the jobs*/
     
     }
     
