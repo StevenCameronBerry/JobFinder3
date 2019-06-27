@@ -1,8 +1,12 @@
-package jobfinder3;
+package Seek;
+
+import java.math.BigInteger;
 
 import com.google.gson.JsonObject;
+import jobfinder3.Scrape;
+import jobfinder3.WebScrape;
 
-public class ScrapeGumtree implements Scrape {
+public class ScrapeSeek implements Scrape {
     
     private JsonObject JsonIndex;
     private String str, StrIndex;
@@ -10,7 +14,7 @@ public class ScrapeGumtree implements Scrape {
     @Override
     public String BuildString(int Page, int PageSize) {
         
-        String Website = "https://www.gumtree.com.au/ws/search.json?categoryId=9302&locationId=3008546&locationStr=SouthPerth&offerType=OFFER&pageNum=" + Page + "&pageSize=" + PageSize + "&previousCategoryId=9302&radius=50&sortByName=date";
+        String Website = "https://chalice-search-api.cloud.seek.com.au/search?siteKey=AU-Main&sourcesystem=houston&where=All+Perth+WA&page=" + Page + "&pageSize=" + PageSize + "&seekSelectAllPages=false&isDesktop=true&sortmode=ListedDate";
         
         return Website;
         
@@ -47,9 +51,9 @@ public class ScrapeGumtree implements Scrape {
 
     //Add Specific Loop
     @Override
-    public String BuildString(int ID) {
+    public String BuildString(String ID) {
         
-        String Website = "https://www.gumtree.com.au/s-ad/" + ID;
+        String Website = "https://www.seek.com.au/job/" + ID;
         
         return Website;
         

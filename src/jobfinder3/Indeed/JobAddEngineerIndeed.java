@@ -1,11 +1,23 @@
-/*The Engineer for JobAdd Builders*/
-package jobfinder3;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Indeed;
 
-public class JobAddEngineerGumtree implements JobAddEngineer {
-    
+import jobfinder3.JobAdd;
+import jobfinder3.JobAddEngineer;
+import jobfinder3.JobAddBuilder;
+
+/**
+ *
+ * @author Administrator
+ */
+public class JobAddEngineerIndeed implements JobAddEngineer {
+
     private JobAddBuilder JobAddBuilder;
     
-    public JobAddEngineerGumtree(JobAddBuilder builder){
+    public JobAddEngineerIndeed(JobAddBuilder builder){
         
         this.JobAddBuilder = builder;
         
@@ -48,24 +60,23 @@ public class JobAddEngineerGumtree implements JobAddEngineer {
         JobAddBuilder.BuildTitle();
         
         //Has dependencies allready listed
+        JobAddBuilder.FormatCompanyName();
+        JobAddBuilder.BuildCompanyName();
         JobAddBuilder.FormatLocation();
         JobAddBuilder.BuildLocation();
-        JobAddBuilder.FormatAge();
-        JobAddBuilder.BuildAge();
-        JobAddBuilder.FormatJobType();
-        JobAddBuilder.BuildJobType();
-        JobAddBuilder.FormatSalaryType();
-        JobAddBuilder.BuildSalaryType();
-        JobAddBuilder.FormatDistance_km();
-        JobAddBuilder.BuildDistance_km();
+        
+        //Just Regular
+        JobAddBuilder.FormatWage();
+        JobAddBuilder.BuildWage();
         
     }
     
     @Override
     public void MakeDB(){
         
-        JobAddBuilder.FormatAdvertiserName();
-        JobAddBuilder.BuildAdvertiserName();
+    	//For Indeed it's one URL with the JSON of the descriptions for all unique ID's
+    	
+    	
         JobAddBuilder.FormatDescription();
         JobAddBuilder.BuildDescription();
         JobAddBuilder.BuildTitleDesc();

@@ -1,7 +1,7 @@
 /* For Gumtree.
 Most of the data for gumtree comes from the JsonObject "Results"
  */
-package jobfinder3;
+package Gumtree;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -9,6 +9,8 @@ import com.google.gson.JsonObject;
 import java.util.Arrays;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import jobfinder3.Parse;
+import jobfinder3.WebScrape;
 
 public class ParseGumtree implements Parse {
     

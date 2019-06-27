@@ -4,10 +4,13 @@ objects these are:
 2. Build
 
 UniqueID, TitleDesc, AdvertiserName and URL are made from pre-existing builds*/
-package jobfinder3;
+package Gumtree;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import jobfinder3.JobAdd;
+import jobfinder3.JobAddBuilder;
+import jobfinder3.Parse;
 
 public class JobAddBuilderGumtree implements JobAddBuilder {
     
@@ -69,7 +72,7 @@ public class JobAddBuilderGumtree implements JobAddBuilder {
     @Override
     public void BuildID() {
         
-        JobAdd.SetID(this.ID);
+        JobAdd.SetID(this.IDStr);
         
     }
     //Website
@@ -312,6 +315,16 @@ public class JobAddBuilderGumtree implements JobAddBuilder {
         
         return JobAdd;
         
+    }
+
+    @Override
+    public void FormatWage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void BuildWage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

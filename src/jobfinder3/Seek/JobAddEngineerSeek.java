@@ -1,5 +1,9 @@
 /*The Engineer for JobAdd Builders*/
-package jobfinder3;
+package Seek;
+
+import jobfinder3.JobAdd;
+import jobfinder3.JobAddEngineer;
+import jobfinder3.JobAddBuilder;
 
 public class JobAddEngineerSeek implements JobAddEngineer {
     

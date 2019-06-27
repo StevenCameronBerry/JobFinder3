@@ -1,23 +1,25 @@
-/*Job Add Builder Implementation for seek. There are two steps to building most 
-objects these are:
-1. Format
-2. Build
-
-UniqueID, TitleDesc, AdvertiserName and URL are made from pre-existing builds*/
-package jobfinder3;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Indeed;
 
 import java.text.SimpleDateFormat;
+import jobfinder3.JobAdd;
+import jobfinder3.JobAddBuilder;
+import jobfinder3.Parse;
 import java.util.Calendar;
 
-public class JobAddBuilderSeek implements JobAddBuilder {
-    
+public class JobAddBuilderIndeed implements JobAddBuilder {
+
     private JobAdd JobAdd;
     private Parse Parse;
     private String IDStr, UniqueID, Input, Description, CompanyName,
-            Title, Location, JobType, SalaryType, Age, Website = "Seek";
-    private int ID, Distance;
+            Title, Location, JobType, SalaryType, Age, Website = "Indeed", ID;
+    private int Distance;
     
-    public JobAddBuilderSeek(){
+    public JobAddBuilderIndeed(){
         
         this.JobAdd = new JobAdd();
         
@@ -41,7 +43,7 @@ public class JobAddBuilderSeek implements JobAddBuilder {
         
         try{
             
-            this.Input = Input.substring(1, Input.length()-1);
+            this.Input = Input;
             this.Input = this.Input.replace("'", "");
             this.Input = this.Input.replace("\"", "");
             this.Input = this.Input.replace("&", "and");
@@ -60,8 +62,7 @@ public class JobAddBuilderSeek implements JobAddBuilder {
     @Override
     public void FormatID(){
         
-        this.IDStr = Parse.GetID();
-        this.ID = Integer.parseInt(this.IDStr);
+        this.ID = Parse.GetID();
         
     }
     //Build
@@ -84,7 +85,7 @@ public class JobAddBuilderSeek implements JobAddBuilder {
     public void BuildUniqueID() {
         //First Char of Website + ID
         
-        this.UniqueID = this.Website.charAt(0) + Integer.toString(this.ID);
+        this.UniqueID = this.Website.charAt(0) + this.ID;
         JobAdd.SetUniqueID(UniqueID);
         
     }
@@ -197,7 +198,7 @@ public class JobAddBuilderSeek implements JobAddBuilder {
     @Override
     public void BuildURL() {
         
-        JobAdd.SetURL("https://www." + Website.toLowerCase() + ".com.au/job/" +
+        JobAdd.SetURL("https://au." + Website.toLowerCase() + ".com/viewjob?jk=" +
                 ID);
         
     }
@@ -291,6 +292,20 @@ public class JobAddBuilderSeek implements JobAddBuilder {
     public JobAdd GetJobAdd() {
         
         return JobAdd;
+        
+    }
+
+    @Override
+    public void FormatWage() {
+        
+        
+        
+    }
+
+    @Override
+    public void BuildWage() {
+        
+        
         
     }
     

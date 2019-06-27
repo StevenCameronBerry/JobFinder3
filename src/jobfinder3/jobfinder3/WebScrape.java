@@ -25,7 +25,7 @@ public class WebScrape {
     private int[] x;
     
     //Method to connect to JSON queries
-    static JsonObject JSONConnect(String Website) throws Exception{
+    public static JsonObject JSONConnect(String Website) throws Exception{
         
         //Web Scrape all of the job adds off of gumtree
         URL url = new URL(Website);
@@ -49,6 +49,8 @@ public class WebScrape {
 
         //Parse the information into a string, "content"
         BufferedReader in = new BufferedReader(
+                
+        //Change this to being try catch in conjunction with the above if statement!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer content = new StringBuffer();
@@ -72,7 +74,7 @@ public class WebScrape {
 
     //Connect to each URL in an array.
     //IF THE OUTPUT OF THIS DOES NOT CONTAIN "https://" IT IS NOT A URL EVERYTHING PARSED
-    static String Connect(String URL, int[] x){
+    public static String Connect(String URL, int[] x){
 
         try{
 
@@ -97,8 +99,6 @@ public class WebScrape {
                 content.append(inputLine);
             }
             in.close();
-            
-            System.out.println(x[2] + 1 + " add descriptions scraped out of " + x[1] + " descriptions to be scraped.");
 
             try{
 
@@ -122,7 +122,7 @@ public class WebScrape {
     
     }
     
-    static Document Parse(String UnParsed){
+    public static Document Parse(String UnParsed){
 
         //To HTML
         Document doc = Jsoup.parse(UnParsed);

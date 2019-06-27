@@ -40,6 +40,8 @@ public interface JobAddBuilder {
     public void BuildSalaryType();
     public void FormatJobType();
     public void BuildJobType();
+    public void FormatWage();
+    public void BuildWage();
     
     public JobAdd GetJobAdd();
     

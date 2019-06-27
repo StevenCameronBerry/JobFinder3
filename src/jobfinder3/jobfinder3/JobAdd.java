@@ -6,10 +6,10 @@ public class JobAdd implements JobAddPlan {
         
     private String UniqueID, Title, Location, Age, URL, SalaryType, JobType,
             Description, TitleDesc, Website, AdvertiserName, CompanyName, 
-            InvalidStr, TitleClear, DescriptionClear;
-    private int ID, Distance_km;
+            InvalidStr, TitleClear, DescriptionClear, ID;
+    private int Distance_km;
     
-    JobAdd(){
+    public JobAdd(){
         
     }
     
@@ -19,7 +19,7 @@ public class JobAdd implements JobAddPlan {
         
         //For Unique ID
         this.SetWebsite(add.GetWebsite());
-        this.SetID(Integer.parseInt(add.GetID()));
+        this.SetID(add.GetID());
         this.SetUniqueID(add.GetUniqueID());
         this.SetTitle(add.GetTitle());
         this.SetURL(add.GetURL());
@@ -57,7 +57,7 @@ public class JobAdd implements JobAddPlan {
 
     }
     @Override
-    public void SetID(int ID){
+    public void SetID(String ID){
         
         /*TODO:
         Add any validation for ID types in specific websites.
@@ -203,7 +203,7 @@ public class JobAdd implements JobAddPlan {
             
             this.CompanyName = "null";
             
-        } else if (CompanyName.length() < 81) {
+        } else if (CompanyName.length() < 100) {
             
             this.CompanyName = CompanyName;
             
@@ -225,10 +225,7 @@ public class JobAdd implements JobAddPlan {
                 " and start with https://www. and be < 46 characters in " +
                 "length.";
         
-        String upToNCharacters = URL.substring(0, Math.min(URL.length(), 12));
-        
-        if (upToNCharacters.equals("https://www.") && 
-                URL.contains(this.Website.toLowerCase()) && URL.length() < 46){
+        if (URL.contains(this.Website.toLowerCase()) && URL.length() < 81){
             
             this.URL = URL;
             
@@ -256,7 +253,11 @@ public class JobAdd implements JobAddPlan {
 
         this.InvalidStr = SalaryType + " must be under 52 characters in length.";
         
-        if (SalaryType.length() < 52){
+        if (SalaryType == null){
+            
+            SalaryType = "null";
+        
+        }else if (SalaryType.length() < 100){
             
             this.SalaryType = SalaryType;
             
@@ -273,9 +274,12 @@ public class JobAdd implements JobAddPlan {
 
         this.InvalidStr = JobType + " must be under 46 characters in length.";
         
-        if (JobType.length() < 46){
+        //Incase JobType was empty
+        String JobTypeCheck = "" + JobType;
+        
+        if (JobTypeCheck.length() < 100){
             
-            this.JobType = JobType;
+            this.JobType = JobTypeCheck;
             
         } else {
             

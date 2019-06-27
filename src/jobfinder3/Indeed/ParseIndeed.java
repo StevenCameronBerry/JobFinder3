@@ -1,27 +1,36 @@
-/* For Seek
-Most of the data for data for seek comes from the JsonArray "ResultList"
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package jobfinder3;
+package Indeed;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.Arrays;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import jobfinder3.Parse;
+import jobfinder3.WebScrape;
+/**
+ *
+ * @author Administrator
+ */
+public class ParseIndeed implements Parse {
 
-public class ParseSeek implements Parse {
-    
     private JsonObject Index;
     private JsonArray ResultList;
-    private JsonElement id, jobType, salary, title, location, age, advertiser;
-    private String IndexStr, Advertiser, Description;
+    private String  Advertiser, Description, AddsOnlineTxt, id, jobType, salary,
+            title, location, age, advertiser, CompanyName, Wage;
     private String[] AdvertiserArr;
-    private int AddsOnline, NumPages;
+    private int AddsOnline, NumPages, NumAddsPage;
+    private Document IndexStr;
+    private Elements PageAdds, LastPageAdd;
+    private Element Add;
     
-    public ParseSeek(){
-            
-        
+    public ParseIndeed(){
             
     }
     
@@ -35,25 +44,27 @@ public class ParseSeek implements Parse {
     @Override
     public void SetStrIndx(String IndexStr){
         
-        this.IndexStr = IndexStr;
+        this.IndexStr = Jsoup.parse(IndexStr);
         
     }
     
     @Override
     public void SetPage() {
+    	
+    	Elements Adds = Add.children();
         
-        id = Index.get("id");
-        jobType = Index.get("workType");
-        salary = Index.get("salary");
-        title = Index.get("title");
-        location = Index.get("area");
-        age = Index.get("listingDate");
-        advertiser = Index.get("advertiser");
-        AdvertiserArr = advertiser.toString().split(
-                        "description\":\"");
-        this.Advertiser = AdvertiserArr[1].replaceAll("\"}", "");
+        //Everything Except last
+        //attributes in HTML are like attributes in OOP, Steven.
+        id = Add.attr("data-jk");
+        title = Add.getElementsByClass("turnstileLink").attr("title");
+        location = Add.getElementsByClass("location").text();
+        CompanyName = Add.getElementsByClass("company").text();
+        Wage = Add.getElementsByClass("salarySnippet").text();
+        
+        //System.out.println(title);
         
     }
+    
     //Getters from SetPage.
     @Override
     public String GetID(){
@@ -93,22 +104,19 @@ public class ParseSeek implements Parse {
     }
     @Override
     public String GetCompanyName(){
-        AdvertiserArr = advertiser.toString().split(
-                        "description\":\"");
-        this.Advertiser = AdvertiserArr[1].replaceAll("\"}", "");
         
-        return this.Advertiser;
+        return CompanyName;
         
     }
     
     @Override
     public void SetDB() {
         
-        Document doc = WebScrape.Parse(IndexStr);
+        //Document doc = WebScrape.Parse(IndexStr);
 
         //Set
-        Elements DescriptionEl = doc.getElementsByClass("_2e4Pi2B");
-        Description = DescriptionEl.text();
+        //Elements DescriptionEl = doc.getElementsByClass("_2e4Pi2B");
+        //Description = DescriptionEl.text();
         
     }
 
@@ -123,7 +131,17 @@ public class ParseSeek implements Parse {
     @Override
     public int AddsOnline() {
         
-        AddsOnline = Integer.parseInt(Index.get("totalCount").toString());
+        AddsOnlineTxt = IndexStr.getElementById("searchCount").text();
+        //Page n of x jobs, the text after "f" + 2
+        String AddsOnlineFormat1 = AddsOnlineTxt.substring(AddsOnlineTxt.lastIndexOf("f") + 2);
+        //before the space
+        String AddsOnlineFormat2 = AddsOnlineTxt.substring(AddsOnlineTxt.lastIndexOf(" "));
+        String AddsOnlineFormat3 = AddsOnlineFormat1.replace(AddsOnlineFormat2, "");
+        String AddsOnlineFormat4 = AddsOnlineFormat3.replace(",", "");
+        AddsOnline = Integer.parseInt(AddsOnlineFormat4);
+        
+        //Indeed is actually limited to 1000 adds.
+        
         
         return AddsOnline;
         
@@ -137,26 +155,31 @@ public class ParseSeek implements Parse {
     @Override
     public void NavigateBL() {
         
-        ResultList = Index.get("data").getAsJsonArray();
-        //System.out.println(Index);
-        //System.out.println(ResultList.size());
+        //Get all of the job add "cards" into an Elements object.
+        PageAdds = IndexStr.getElementsByClass
+        ("jobsearch-SerpJobCard unifiedRow row result");
         
     }
     
     @Override
     public void NavigatePL(int PageItr) {
+    	
+    	NavigateBL();
+    	
+        Add = PageAdds.get(PageItr);
         
-        JsonElement Ecs = ResultList.get(PageItr);
-        Index = Ecs.getAsJsonObject();
-                
     }
 
     @Override
     public int NumAddsPage() {
         
-        System.out.println(ResultList.size() + " adds on page.");
+        /*Get the number of job add "cards" and count the number of elemnts in 
+        the array.*/
+        NumAddsPage = PageAdds.size();
         
-        return ResultList.size();
+        System.out.println(NumAddsPage + " adds on page.");
+        
+        return NumAddsPage;
         
     }
 
@@ -165,19 +188,11 @@ public class ParseSeek implements Parse {
         
     }
 
+    //Redundant for Indeed
     @Override
     public boolean Ignore(int z) {
         
-        JsonElement isPremium = Index.get("isPremium");
-        if(isPremium.toString().equals("true")){
-
-            return true;
-
-        } else {
-            
-            return false;
-            
-        }
+        return false;
         
     }
     
@@ -185,11 +200,12 @@ public class ParseSeek implements Parse {
     public boolean CheckDup(String[] AddsInDB){
         
         boolean InDB = Arrays.stream(AddsInDB).anyMatch(id.toString()::equals);
+        
             if(InDB == true){
 
                 return true;
 
-            }else{
+            } else {
                 
                 return false;
                 
@@ -200,6 +216,7 @@ public class ParseSeek implements Parse {
     @Override
     public String GetDescription() {
         
+    	//System.out.println(this.Description);
         return this.Description;
         
     }
@@ -213,6 +230,13 @@ public class ParseSeek implements Parse {
     public int NumPages(int PageSize) {
         
         NumPages = AddsOnline/PageSize + 1;
+        
+        //For indeed the number of pages can not be greater than 20
+        if(NumPages > 20){
+            
+            NumPages = 20;
+            
+        }
         
         return NumPages;
         

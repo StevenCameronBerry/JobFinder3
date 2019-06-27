@@ -7,7 +7,7 @@ public interface JobAddPlan {
     /*Setters*/
     //Required to make UniqueID
     public void SetWebsite(String Website);
-    public void SetID(int ID);
+    public void SetID(String ID);
     public void SetUniqueID(String UniqueID);
     
     //Required to make Title+Desc
