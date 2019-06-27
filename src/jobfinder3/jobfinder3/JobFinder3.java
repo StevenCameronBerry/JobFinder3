@@ -23,6 +23,7 @@ of the program are:
 
 package jobfinder3;
 
+import java.math.BigInteger;
 import java.sql.*;
 import com.mysql.cj.util.StringUtils;
 
@@ -36,6 +37,11 @@ import Seek.JobAddBuilderSeek;
 import Seek.JobAddEngineerSeek;
 import Seek.ParseSeek;
 import Seek.ScrapeSeek;
+//Indeed Package
+import Indeed.JobAddBuilderIndeed;
+import Indeed.JobAddEngineerIndeed;
+import Indeed.ParseIndeed;
+import Indeed.ScrapeIndeed;
 
 public class JobFinder3{
     
@@ -230,7 +236,7 @@ public class JobFinder3{
             }
             
             //Need to add a final counter and make it equal to z here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
+            //for(int x=0; x < z; x++, q++){System.out.println(add[q].GetTitle());}
             //Scrape the descriptions, format and insert into DB
             for(int x=0; x < z; x++, q++){
 
@@ -240,14 +246,16 @@ public class JobFinder3{
                 //If the ID was a string
                 if(StringUtils.isStrictlyNumeric(add[q].GetID())){
                 	
-                	URL = ScrapeObj.BuildString(Integer.parseInt(add[q].
-                            GetID()));
+                	URL = ScrapeObj.BuildString(add[q].GetID());
                 	
-                } else { //If it was numeric
+                } else { //If it was numeric (when it's for Indeed and is therefore a hex number)
                 	
-                	URL = add[q].GetID();
+                	URL = ScrapeObj.BuildString(add[q].GetID());
                 	
                 }
+                
+                //System.out.println(add[q].GetID());
+                System.out.println(URL);
                 
                 System.out.println(Counters[2] + 1 + 
                         " add descriptions scraped out of " + AddsOnline + 
@@ -287,7 +295,7 @@ public class JobFinder3{
 
             //Increase the iterator for which website to scrape from
             itr++;
-            if(itr == 2){//3
+            if(itr == 3){//3
 
                 itr = 0; //Go back to zero or the adds index will be out of range.
 
@@ -295,7 +303,7 @@ public class JobFinder3{
     
         }
         
-        /*This part of the main algorithm is for actually appling to the jobs*/
+        /*This part of the main algorithm is for actually applying to the jobs*/
     
     }
     
