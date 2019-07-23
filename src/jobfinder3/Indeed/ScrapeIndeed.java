@@ -27,7 +27,7 @@ public class ScrapeIndeed implements Scrape {
         
         //Indeeds pages are Page * 50
         PageDet(Page);
-        System.out.println(this.Page);
+        
         String Website = "https://au.indeed.com/jobs?as_and=&as_phr=&as_any=&as_not=&as_ttl=&as_cmp=&jt=all&st=&as_src=&salary=&radius=50&l=Perth+WA&fromage=any&limit=" + PageSize + "&sort=date&psf=advsrch&start=" + this.Page;
         
         return Website;
@@ -37,7 +37,7 @@ public class ScrapeIndeed implements Scrape {
     //Indeeds pages are Page * 50
     private void PageDet(int Page){
         
-        this.Page = (-1 + Page)*50;
+        this.Page = 50*(Page - 1);
         
     }
 
@@ -94,6 +94,8 @@ public class ScrapeIndeed implements Scrape {
 
     @Override
     public void ScrapeIndx(int[] Counter) {
+    	
+    	//if counter >= 1 it's already done for indeed (indeed gets all descriptions of one JSON)
         
         this.StrIndex[0] = WebScrape.Connect(str, Counter);
         

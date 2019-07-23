@@ -6,7 +6,7 @@ process that should always be followed is:
 
 These stages should always be followed at any stage of the program. The Stages
 of the program are: 
-1. Main Loop
+1. Scrape Loop
     1. Scrape
     2. Parse
 2. In the Book Loop
@@ -23,9 +23,8 @@ of the program are:
 
 package jobfinder3;
 
-import java.math.BigInteger;
 import java.sql.*;
-import com.mysql.cj.util.StringUtils;
+import java.util.concurrent.TimeUnit;
 
 //Gumtree Package
 import Gumtree.JobAddBuilderGumtree;
@@ -37,15 +36,21 @@ import Seek.JobAddBuilderSeek;
 import Seek.JobAddEngineerSeek;
 import Seek.ParseSeek;
 import Seek.ScrapeSeek;
+import applying.Builder;
+import applying.Engineer;
+import applying.JobApplication;
+import applying.JobApplicationBuilder;
+import applying.JobApplicationEngineer;
+import applying.JobTypes;
 //Indeed Package
 import Indeed.JobAddBuilderIndeed;
 import Indeed.JobAddEngineerIndeed;
 import Indeed.ParseIndeed;
 import Indeed.ScrapeIndeed;
 
-public class JobFinder3{
-    
-    public static void main(String[] args) throws Exception {
+public class JobFinder3 {
+
+	public static void main(String[] args) throws Exception {
         
         //Initialize Variables
         String[] Adds = {"Seek","Gumtree","Indeed"};
@@ -54,7 +59,7 @@ public class JobFinder3{
         JobAddEngineer engineer;
         String URL;
 
-        MainLoop: while(true){
+        ScrapeLoop: while(itr < 2){//
         
             //Initialize Attributes
             int  Page = 1, AddItr, z = 0, q = 0, PageSize, a = 0;
@@ -146,6 +151,7 @@ public class JobFinder3{
 
             //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE 
             String IndxURL = ScrapeObj.BuildString(Page, PageSize); 
+            System.out.println(IndxURL);
             ScrapeObj.SetString(IndxURL, Page);
             ScrapeObj.ScrapeIndx(Page);
 
@@ -236,6 +242,7 @@ public class JobFinder3{
             }
             
             //Need to add a final counter and make it equal to z here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED
             //for(int x=0; x < z; x++, q++){System.out.println(add[q].GetTitle());}
             //Scrape the descriptions, format and insert into DB
             for(int x=0; x < z; x++, q++){
@@ -243,16 +250,7 @@ public class JobFinder3{
                 //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE
                 int[] Counters = new int[]{x,z,q};
                 
-                //If the ID was a string
-                if(StringUtils.isStrictlyNumeric(add[q].GetID())){
-                	
-                	URL = ScrapeObj.BuildString(add[q].GetID());
-                	
-                } else { //If it was numeric (when it's for Indeed and is therefore a hex number)
-                	
-                	URL = ScrapeObj.BuildString(add[q].GetID());
-                	
-                }
+                URL = ScrapeObj.BuildString(add[q].GetID());
                 
                 //System.out.println(add[q].GetID());
                 System.out.println(URL);
@@ -276,7 +274,6 @@ public class JobFinder3{
                 engineer.SetBuilder(builder);
                 engineer.MakeDB();
                 add[q] = engineer.GetJobAdd();
-                
                 //Insert into the DB.
                 DBConnect.InsertAdd(add[q],Counters,conn);
 
@@ -295,16 +292,33 @@ public class JobFinder3{
 
             //Increase the iterator for which website to scrape from
             itr++;
-            if(itr == 3){//3
-
-                itr = 0; //Go back to zero or the adds index will be out of range.
-
-            }
-    
+            
         }
+            
+        //JUST SETTLE ON 2 AND NOT CRASHING UNTILL YOU ARE ACTUALLY LOOKING FOR A JOB CUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
         
         /*This part of the main algorithm is for actually applying to the jobs*/
-    
-    }
-    
+        //Create an array of JobApplications
+        //Iterate through the different types of Job Types
+        ApplyLoop: for (JobTypes JobType : JobTypes.values()) {
+        	
+        	/*Populate the attributes for the Job Application object.
+        	To initialize this object you need:
+        	
+        	1. Job Title
+        	2. Orig Words
+        	3. Messages for each website*/
+        	
+        	//Initialize Builder and Engineer
+			JobApplicationBuilder BuilderJobApplic = new Builder();
+			JobApplicationEngineer EngineerJobApplic = new Engineer(BuilderJobApplic);
+			
+			//Build the Job Application Object
+			EngineerJobApplic.CombWords(JobType.OrigWords());
+			TimeUnit.SECONDS.sleep(1000);
+      	  
+        }
+   
+   }
+
 }

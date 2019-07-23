@@ -34,14 +34,16 @@ public class WebScrape {
 
         //Response type
         status = con.getResponseCode();
-        
+        //This could potentially run forever!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        while(status != 200) {
         //For failed connections
-        if(status != 200){
             
             con.disconnect();
             con = (HttpURLConnection) url.openConnection();
             Thread.sleep(1000);
             con.setRequestMethod("GET");
+            
+            status = con.getResponseCode();
             
         }
 

@@ -61,6 +61,8 @@ public class ParseIndeed implements Parse {
         CompanyName = Add.getElementsByClass("company").text();
         Wage = Add.getElementsByClass("salarySnippet").text();
         
+        //Get Age too
+        
         //System.out.println(title);
         
     }

@@ -17,7 +17,7 @@ public class ParseSeek implements Parse {
     private JsonObject Index;
     private JsonArray ResultList;
     private JsonElement id, jobType, salary, title, location, age, advertiser;
-    private String IndexStr, Advertiser, Description;
+    private String IndexStr, Advertiser, Description, ID = " ";
     private String[] AdvertiserArr;
     private int AddsOnline, NumPages;
     
@@ -54,6 +54,9 @@ public class ParseSeek implements Parse {
         AdvertiserArr = advertiser.toString().split(
                         "description\":\"");
         this.Advertiser = AdvertiserArr[1].replaceAll("\"}", "");
+        
+        //For checking if "id" is a duplicate in the "ignore" method
+        ID = id.toString();
         
     }
     //Getters from SetPage.
@@ -174,7 +177,17 @@ public class ParseSeek implements Parse {
     public boolean Ignore(int z) {
         
         JsonElement isPremium = Index.get("isPremium");
-        if(isPremium.toString().equals("true")){
+        //Also need to check for duplicate adds as they have a bug where two duplicates will show up next to each other
+        //The old "id" is from the set page method which is ran after ignore
+        JsonElement duplicateCheck = Index.get("id");
+        
+        if(ID.equals(duplicateCheck.toString())){
+        	
+        	System.out.println("Old ID: " + ID + "\nNew ID: " + duplicateCheck.toString() + "\n");
+        	
+        }
+        
+        if(isPremium.toString().equals("true") || ID.equals(duplicateCheck.toString())){
 
             return true;
 
