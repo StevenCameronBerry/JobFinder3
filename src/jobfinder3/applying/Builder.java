@@ -27,6 +27,7 @@ public class Builder implements JobApplicationBuilder {
 	public void SetOrigWords(String[] OrigWords) {
 		
 		this.OrigWords = OrigWords;
+		
 	}
 	
 	/*Build the Word List*/
@@ -166,99 +167,43 @@ public class Builder implements JobApplicationBuilder {
 	@Override
 	public void SpaceRep() {
 		
-		//The Value of the hashmap
-		System.out.println(Arrays.toString(SpacesToRep.get(OrigWords[OrigWordCounter])));
-		//The Key of the hashmap
-		System.out.println("HashMap Key:\n" + SpacesToRep.keySet().toArray()[OrigWordCounter].toString());
+		//The new method for SpaceRep
+		//Go down through combinations
+		for (int y = 0; y < NumberCombins; y++) {
+			
+			//Left to right for spaces index and boolean positions
+			for (int x = 0; x < MaxSpaceSize; x++) {
+				
+				//Leave once were at the last
+				if (OrigWordCounter == OrigWords.length) {
+				
+					return;
+
+				}
+				
+				//To show the original word
+				System.out.println("The Original Word:");
+				System.out.println(OrigWords[OrigWordCounter]);
+				
+				//To check that the combinations are correct
+				System.out.println("x: " + x + " y: " + y);
+				System.out.println(Combinations[y][x]);
+				//To check where the space position was
+				System.out.println(SpacePos[OrigWordCounter][x]);
+				
+				//Recursion for going through to the next word
+				if (x == MaxSpaceSize - 1 && y == NumberCombins - 1) {
+					
+					OrigWordCounter = OrigWordCounter + 1;
+					SpaceRep();
+					
+				}
+				
+			}
+			
+		}
 		
-		//Loop through the hashmap
-				//for (String SpaceToRep: SpacesToRep.keySet()) {
-					
-					//When we get to the final combination it's time to go to the next word and re-start the loop.
-					   if (Combination == NumberCombins) {
-							
-							Combination = 0;
-							OrigWordCounter = OrigWordCounter + 1;
-							
-						}
-					
-					//System.out.println("\n" + SpaceToRep + " : " + Arrays.toString(SpacesToRep.get(SpaceToRep)) + "\n");
-					//StringBuilder NewWord = new StringBuilder(SpaceToRep);
-					//for(int[] Combination: Combinations) {
-						//System.out.println(NewWord.toString());
-						
-					System.out.println(NumberCombins);
-					System.out.println(Combination);
-					
-						System.out.println("This Combination Specifically:");
-						System.out.println(Combinations[Combination][CombinPos]);
-						
-						System.out.println("Combination Position:");
-						System.out.println(CombinPos);
-						
-						if (Combinations[Combination][CombinPos] == 1 && SpacesToRep.get(OrigWords[OrigWordCounter])[CombinPos] != -1 && CombinPos == 0) {
-							
-							//System.out.println(SpacesToRep.get(SpaceToRep)[CombinPos]);
-							NewKey = SpacesToRep.keySet().toArray()[OrigWordCounter].toString().substring(0, SpacesToRep.get(OrigWords[OrigWordCounter])[CombinPos]) + 
-									SpacesToRep.keySet().toArray()[OrigWordCounter].toString().substring(SpacesToRep.get(OrigWords[OrigWordCounter])[CombinPos]+1);
-							//NewWord.deleteCharAt(SpacesToRep.get(SpaceToRep)[CombinPos]);
-							//String NewKey = NewWord.toString();
-							
-						} else if (Combinations[Combination][CombinPos] == 1 && SpacesToRep.get(OrigWords[OrigWordCounter])[CombinPos] != -1) {
-							
-							NewKey = NewKey.substring(0, SpacesToRep.get(OrigWords[OrigWordCounter])[CombinPos]) + 
-									SpacesToRep.keySet().toArray()[OrigWordCounter].toString().substring(SpacesToRep.get(OrigWords[OrigWordCounter])[CombinPos]+1);
-							
-						}
-						
-						if(CombinPos < MaxSpaceSize - 1) {
-							
-							System.out.println(NewKey + "\n");
-							CombinPos++;
-							
-							
-							SpaceRep();
-							
-							//If it's at the last index it needs to be taken back to start over agian.
-						}if(CombinPos == MaxSpaceSize - 1) {
-							
-							System.out.println(NewKey + "\n");
-							
-							//Go right
-							CombinPos = 0;
-							//Go down
-							Combination++;
-							
-							//The Word needs to be re-set as well.
-							NewKey = SpacesToRep.keySet().toArray()[OrigWordCounter].toString();
-							System.out.println();
-							
-							SpaceRep();
-							
-						
-						}
-						
-					}
-				
-				  
-				 
-				
-					//System.out.println(Arrays.toString(SpacesToRep.get(SpaceToRep).get(0)) + " " + Arrays.toString(SpacesToRep.get(SpaceToRep).get(1)));
-					
-					//Loop through the combinations
-					/*
-					 * for (int[] Combination: Combinations) {
-					 * 
-					 * //To check where stuff is visually if need be:
-					 * System.out.println(SpaceToRep);
-					 * System.out.println(Arrays.toString(SpacesToRep.get(SpaceToRep)));
-					 * System.out.println(Arrays.toString(Combination) + "\n");
-					 * 
-					 * values.add(Combination); StringBuilder ReplaceSpace = new
-					 * StringBuilder(SpaceToRep); //ReplaceSpace.
-					 * 
-					 * }
-					 */
+	}
 	
 	@Override
 	public void GenerateInsertations() {
