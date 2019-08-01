@@ -33,7 +33,7 @@ public interface Parse {
     
     //Page Loop
     public void NavigatePL(int PageItr);
-    public boolean Ignore(int z);
+    public boolean Ignore(int z, String[] AddsInDB);
     public boolean CheckDup(String[] AddsInDB);
     
     //Add Specific Loop

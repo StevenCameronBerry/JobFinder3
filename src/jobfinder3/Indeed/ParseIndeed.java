@@ -192,7 +192,7 @@ public class ParseIndeed implements Parse {
 
     //Redundant for Indeed
     @Override
-    public boolean Ignore(int z) {
+    public boolean Ignore(int z, String[] AddsInDB) {
         
         return false;
         

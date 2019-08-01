@@ -228,7 +228,7 @@ public class ParseGumtree implements Parse {
 
     //Ignore Premium or Freatured Adds.
     @Override
-    public boolean Ignore(int z) {
+    public boolean Ignore(int z, String[] AddsInDB) {
         
         JsonElement isPremium = Index.get("isPremium");
         JsonElement isFeatured = Index.get("isFeatured");

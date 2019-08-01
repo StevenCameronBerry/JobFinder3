@@ -1,6 +1,8 @@
 //This is the engineer for Job Applicants.
 package applying;
 
+import java.sql.SQLException;
+
 import jobfinder3.JobAdd;
 
 public class Engineer implements JobApplicationEngineer {
@@ -45,6 +47,10 @@ public class Engineer implements JobApplicationEngineer {
 		JobApplicationBuilder.IdentifySpacePos();
 		JobApplicationBuilder.InitSpacesToRep();
 		JobApplicationBuilder.SpaceRep();
+		JobApplicationBuilder.RawComboList();
+		JobApplicationBuilder.ComboWords();
+		JobApplicationBuilder.ComboWordsArr();
+		JobApplicationBuilder.BuildComboWords();
 
 	}
 	
@@ -56,12 +62,28 @@ public class Engineer implements JobApplicationEngineer {
 		
 		
 	}
+	
+	//For Making the SQL Query
+	@Override
+	public void BuildSQLQuery() {
+		
+		JobApplicationBuilder.CreateSQLQuery();
+		JobApplicationBuilder.BuildSQLQuery();
+		
+	}
 
 	@Override
-	public void BuildMessage() {
+	public void BuildMessage(JobApplication JobApp) throws SQLException {
 		
+		JobApplicationBuilder.SetJobApplication(JobApp);
+		JobApplicationBuilder.SetResults();
+		JobApplicationBuilder.ProcessVarsInit();
 		JobApplicationBuilder.ProcessVars();
+		JobApplicationBuilder.ProcessDistance();
 		JobApplicationBuilder.ProcessAge();
+		JobApplicationBuilder.BuildJobAdds();
+		JobApplicationBuilder.BuildMessagesGumtree();
+		JobApplicationBuilder.BuildMessagesSeek();
 
 	}
 	

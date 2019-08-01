@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.util.Arrays;
 
 /**
  *
@@ -67,6 +69,20 @@ public class DBConnect{
 
         //Obtain the results
         ResultSet Results = stmt.executeQuery(query);
+
+        return Results;
+        
+    }
+    
+    //Get a result set for ID's in the DB
+    public static ResultSet Search(Connection conn, String Query) throws 
+            SQLException{
+        
+        //SQL statement
+        Statement stmt = (Statement) conn.createStatement();
+
+        //Obtain the results
+        ResultSet Results = stmt.executeQuery(Query);
 
         return Results;
         
@@ -139,11 +155,21 @@ public class DBConnect{
                 add.GetDescription() + "', '" + add.GetCompanyName() + "', '" +
                 add.GetTitleDesc() + "', '" + add.GetWebsite() + "', '" + 
                 add.GetAdvertiserName() + "')";
-        stmt.executeUpdate(insert);
 
         System.out.println(add.toString());
 
         System.out.println(Counters[2] + 1 + " new adds inserted into the DB out of " + Counters[1]);
+        
+        //Catch and ignore any duplicate entries
+        try {
+        	
+        	stmt.executeUpdate(insert);
+        	
+        }catch(SQLIntegrityConstraintViolationException e){
+        	
+        	//Do nothing
+        	
+        }
         
     }
     

@@ -21,9 +21,14 @@ of the program are:
     3. Build
 */
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DO EDIT DISTANCE AND REPLACING WITH BASE WORD ON THE SCRAPING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 package jobfinder3;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 //Gumtree Package
@@ -59,7 +64,7 @@ public class JobFinder3 {
         JobAddEngineer engineer;
         String URL;
 
-        ScrapeLoop: while(itr < 2){//
+        ScrapeLoop: while(true){//
         
             //Initialize Attributes
             int  Page = 1, AddItr, z = 0, q = 0, PageSize, a = 0;
@@ -201,7 +206,7 @@ public class JobFinder3 {
                     ParseObj.NavigatePL(AddItr);
 
                     //Ignore Premium adds
-                    if (ParseObj.Ignore(z) == true){
+                    if (ParseObj.Ignore(z, AddsInDB) == true){
                         
                         z--;
                         a--;
@@ -245,7 +250,7 @@ public class JobFinder3 {
             //50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED
             //for(int x=0; x < z; x++, q++){System.out.println(add[q].GetTitle());}
             //Scrape the descriptions, format and insert into DB
-            for(int x=0; x < z; x++, q++){
+            DBLoop: for(int x=0; x < z; x++, q++){
 
                 //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE
                 int[] Counters = new int[]{x,z,q};
@@ -256,7 +261,7 @@ public class JobFinder3 {
                 System.out.println(URL);
                 
                 System.out.println(Counters[2] + 1 + 
-                        " add descriptions scraped out of " + AddsOnline + 
+                        " add descriptions scraped out of " + Counters[1] + 
                         " descriptions to be scraped.");
                 ScrapeObj.SetString(URL);
                 ScrapeObj.ScrapeIndx(Counters);
@@ -275,6 +280,8 @@ public class JobFinder3 {
                 engineer.MakeDB();
                 add[q] = engineer.GetJobAdd();
                 //Insert into the DB.
+                //Thread.sleep(10000);
+                
                 DBConnect.InsertAdd(add[q],Counters,conn);
 
                 //To prevent memory leaks
@@ -289,13 +296,23 @@ public class JobFinder3 {
 
             //Disconnect DB
             DBConnect.Disconnect(conn);
-
-            //Increase the iterator for which website to scrape from
-            itr++;
             
-        }
+          //Increase the iterator for which website to scrape from
+            itr++;
+            if(itr == 2) {
+            	
+            	itr = 0;
+            	
+            	//If the itr is at the second one, re-start the downloading.
+            } else if (itr == 1) {
+            	
+            	continue;
+            	
+            }
             
         //JUST SETTLE ON 2 AND NOT CRASHING UNTILL YOU ARE ACTUALLY LOOKING FOR A JOB CUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
+        //Connect to DB
+        Connection conn2 = DBConnect.Connect();
         
         /*This part of the main algorithm is for actually applying to the jobs*/
         //Create an array of JobApplications
@@ -309,16 +326,31 @@ public class JobFinder3 {
         	2. Orig Words
         	3. Messages for each website*/
         	
+        	
         	//Initialize Builder and Engineer
-			JobApplicationBuilder BuilderJobApplic = new Builder();
+			JobApplicationBuilder BuilderJobApplic = new Builder(JobType.JobTitle());
 			JobApplicationEngineer EngineerJobApplic = new Engineer(BuilderJobApplic);
 			
 			//Build the Job Application Object
 			EngineerJobApplic.CombWords(JobType.OrigWords());
-			TimeUnit.SECONDS.sleep(1000);
+			EngineerJobApplic.BuildSQLQuery();
+			
+			//Get the Job Application and make it search the DB than put it back into the builder
+			JobApplication JobApp = BuilderJobApplic.GetJobApplication();
+			JobApp.DBExtract(conn2);
+			EngineerJobApplic.BuildMessage(JobApp);
+			
+			//Apply to all of the appropriate Job Adds.
+			JobApplication JobApplicant = BuilderJobApplic.GetJobApplication();
+			JobApplicant.Apply();
       	  
         }
-   
+        
+        DBConnect.Disconnect(conn2);
+        
+        
    }
+        
+	}
 
 }

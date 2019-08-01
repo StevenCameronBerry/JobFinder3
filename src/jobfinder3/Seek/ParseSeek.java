@@ -174,12 +174,14 @@ public class ParseSeek implements Parse {
     }
 
     @Override
-    public boolean Ignore(int z) {
+    public boolean Ignore(int z, String[] AddsInDB) {
         
         JsonElement isPremium = Index.get("isPremium");
         //Also need to check for duplicate adds as they have a bug where two duplicates will show up next to each other
         //The old "id" is from the set page method which is ran after ignore
         JsonElement duplicateCheck = Index.get("id");
+        
+        boolean InDB = Arrays.stream(AddsInDB).anyMatch(ID.toString()::equals);
         
         if(ID.equals(duplicateCheck.toString())){
         	
@@ -187,7 +189,7 @@ public class ParseSeek implements Parse {
         	
         }
         
-        if(isPremium.toString().equals("true") || ID.equals(duplicateCheck.toString())){
+        if(isPremium.toString().equals("true") || InDB){
 
             return true;
 
@@ -203,7 +205,8 @@ public class ParseSeek implements Parse {
     public boolean CheckDup(String[] AddsInDB){
         
         boolean InDB = Arrays.stream(AddsInDB).anyMatch(id.toString()::equals);
-            if(InDB == true){
+        boolean INDB = Arrays.stream(AddsInDB).anyMatch(ID.toString()::equals);
+            if(InDB == true || INDB == true){
 
                 return true;
 
