@@ -326,7 +326,7 @@ public class JobFinder3 {
         	2. Orig Words
         	3. Messages for each website*/
         	
-        	
+        	/*
         	//Initialize Builder and Engineer
 			JobApplicationBuilder BuilderJobApplic = new Builder(JobType.JobTitle());
 			JobApplicationEngineer EngineerJobApplic = new Engineer(BuilderJobApplic);
@@ -343,7 +343,7 @@ public class JobFinder3 {
 			//Apply to all of the appropriate Job Adds.
 			JobApplication JobApplicant = BuilderJobApplic.GetJobApplication();
 			JobApplicant.Apply();
-      	  
+      	  */
         }
         
         DBConnect.Disconnect(conn2);
