@@ -322,6 +322,9 @@ public class Builder implements JobApplicationBuilder {
 			  SQLQuery += " OR `Title+Desc` LIKE '%" + Word + "%'";
 			
 		}
+		
+		//Show the SQL query.
+		System.out.println(SQLQuery);
 
 	}
 	

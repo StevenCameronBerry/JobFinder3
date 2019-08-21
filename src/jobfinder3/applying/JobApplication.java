@@ -53,6 +53,13 @@ public class JobApplication implements JobApplicationPlan {
 		
 	}
 	
+	/*Apply to a job add. This method needs to break the rule of only doing one thing in order to obtain
+	the appropriate security credentials before they expire. What this method does is:
+	1) Identify Website
+	2) Scrape for credentials
+	3) Build HTTP Header
+	4) Build HTTP body
+	5) Send post request*/
 	@Override
 	public void Apply() throws IOException {
 		
