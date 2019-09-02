@@ -146,7 +146,7 @@ public class DBConnect{
         String insert = "INSERT INTO jobfinder3.jf3 (uniqueID, " + 
                 "ID, Title, Location, Distance_km, Age, URL, " +
                 "SalaryType, JobType, Description, CompanyName, " +
-                "`Title+Desc`, Website, AdvertiserName)" +
+                "`Title+Desc`, Website, AdvertiserName, KeyWord, CoverLetter)" +
                 " VALUES ('" + add.GetUniqueID() + "', '" + add.GetID() + 
                 "', '" + add.GetTitle() + "', '" + add.GetLocation() + 
                 "', '" + add.GetDistance_km() + "', '"
@@ -154,7 +154,7 @@ public class DBConnect{
                 add.GetSalaryType() + "', '" + add.GetJobType() + "', '" +
                 add.GetDescription() + "', '" + add.GetCompanyName() + "', '" +
                 add.GetTitleDesc() + "', '" + add.GetWebsite() + "', '" + 
-                add.GetAdvertiserName() + "')";
+                add.GetAdvertiserName() + "', '" + add.GetKeyWord() + "', '" + add.GetMessage() + "')";
 
         System.out.println(add.toString());
 

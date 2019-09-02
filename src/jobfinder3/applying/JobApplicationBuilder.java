@@ -3,11 +3,13 @@ package applying;
 
 import java.sql.SQLException;
 
+import jobfinder3.JobAdd;
+
 public interface JobApplicationBuilder {
 	
 	//Setters
 	public void SetOrigWords(String[] OrigWords);
-	public void SetJobApplication(JobApplication JobApp);
+	public void SetJobApplication(JobAdd jobAdd);
 	public void SetResults();
 	
 	//For Expanding the words
@@ -19,7 +21,7 @@ public interface JobApplicationBuilder {
 	public void RawComboList();
 	public void ComboWords();
 	public void ComboWordsArr();
-	public void BuildComboWords();
+	public String[] BuildComboWords();
 	
 	//For Accounting for spelling mistakes
 	public void GenerateInsertations();
@@ -34,13 +36,16 @@ public interface JobApplicationBuilder {
 	//For Formatting the message
 	public void ProcessVarsInit() throws SQLException;
 	public void ProcessVars() throws SQLException;
-	public void ProcessDistance();
+	public String ProcessDistance();
 	public void ProcessAge();
 	public void BuildJobAdds();
 	public void BuildMessagesGumtree();
 	public void BuildMessagesSeek();
 
 	public JobApplication GetJobApplication();
+	
+	public void SetJobAdd(JobAdd jobAdd);
+	public JobAdd GetJobAdd();
 	
 
 }

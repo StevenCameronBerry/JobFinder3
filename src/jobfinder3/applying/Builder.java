@@ -16,15 +16,16 @@ public class Builder implements JobApplicationBuilder {
 	private int SpaceSize, SpaceIdx, MaxSpaceSize, NumberCombins, CombinPos = 0, OrigWordCounter = 0, z = 0;
 	private int[] SpaceSizes, Combination;
 	private int[][] SpacePos, Combinations;
-	private String[] OrigWords, RawComboWords, ComboWords, CoverLettersGumtree, CoverLettersSeek;
+	private String[] OrigWords, RawComboWords, ComboWords;
 	private JobApplication JobApplication;
 	private HashMap<String, int[]> SpacesToRep = new HashMap<String, int[]>();
-	private String NewKey, SQLQuery, JobTitle;
+	private String NewKey, SQLQuery, JobTitle, CoverLetter;
 	private boolean DeldChar;
 	private List<String> RawList;
 	private Set<String> ComobWordsSet;
 	private ResultSet Results;
 	private JobAdd[] JobAdds;
+	private JobAdd JobAdd;
 	
 	public Builder(String JobTitle){
 	
@@ -41,9 +42,9 @@ public class Builder implements JobApplicationBuilder {
 	}
 	
 	@Override
-	public void SetJobApplication(JobApplication JobApp) {
+	public void SetJobApplication(JobAdd JobAdd) {
 		
-		this.JobApplication = JobApp;
+		this.JobAdd = JobAdd;
 		
 	}
 	
@@ -305,9 +306,11 @@ public class Builder implements JobApplicationBuilder {
 	}
 	
 	@Override
-	public void BuildComboWords() {
+	public String[] BuildComboWords() {
 		
 		JobApplication.SetWords(ComboWords);
+		
+		return ComboWords;
 
 	}
 	
@@ -336,65 +339,14 @@ public class Builder implements JobApplicationBuilder {
 	}
 	
 	//Initialize Objects and variables for assigning the variables for the messages.
-	@Override
-	public void ProcessVarsInit() throws SQLException {
-		
-		//Find the size of the Result Set
-		int size = 0;
-		
-		if (Results != null) {
-			
-			Results.last();    // moves cursor to the last row
-			size = Results.getRow(); // get row id
-		  
-		}
-		
-		System.out.println(size);
-		
-		CoverLettersGumtree = new String[size];
-		CoverLettersSeek = new String[size];
-		JobAdds = new JobAdd[size];
-		
-		for(JobAdd Job: JobAdds) {Job = new JobAdd();}
-		
-		System.out.println(JobAdds.length);
-		
-		//Initialize the JobAdd Objects inside Job Application
-		int x = 0;
-		Results.beforeFirst();
-		while (Results.next()) {
-			
-			JobAdds[x] = new JobAdd();
-			JobAdds[x].SetID(Results.getString("ID"));
-			JobAdds[x].SetTitle(Results.getString("Title"));
-			JobAdds[x].SetLocation(Results.getString("Location"));
-			JobAdds[x].SetDistance_km(Integer.parseInt(Results.getString("Distance_km")));
-			JobAdds[x].SetAge(Results.getString("Age"));
-			JobAdds[x].SetWebsite(Results.getString("Website"));
-			JobAdds[x].SetURL(Results.getString("URL"));
-			JobAdds[x].SetSalaryType(Results.getString("SalaryType"));
-			JobAdds[x].SetJobType(Results.getString("JobType"));
-			JobAdds[x].SetDescription(Results.getString("Description"));
-			JobAdds[x].SetCompanyName(Results.getString("CompanyName"));
-			JobAdds[x].SetTitleDesc(Results.getString("Title+Desc"));
-			JobAdds[x].SetAdvertiserName(Results.getString("AdvertiserName"));
-			
-			x++;
-			
-		}
-		
-		//Put those Job Adds into the Job Application object
-		
-
-	}
+	
 	
 	@Override
 	public void ProcessVars() throws SQLException {
-		
-		//Process the variables for both
-		for (int x = 0; x < JobAdds.length; x++) {
+
+		if (JobAdd.GetWebsite().equals("Gumtree")) {
 			
-			CoverLettersGumtree[x] = "Dear " + JobAdds[x].GetAdvertiserName() + ", I am Steven. I am a " + JobApplication.GetJobTitle() + " with two and a half years recent industry experience. I would like to apply for the " + JobAdds[x].GetJobType() + " “" + JobAdds[x].GetTitle() + "” position you listed on " + JobAdds[x].GetWebsite() + ". I am seeking a long-term part-time or casual position for the next four years while I complete my undergraduate studies in Instrumentation and Control Systems Engineering, followed by my masters degree in Electrical Engineering. I need this position to pay for rent, food and other necessary expenses. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdds[x].GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven. I am a " + JobAdd.GetKeyWord() + " with two and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am seeking a long-term part-time or casual position for the next four years while I complete my undergraduate studies in Instrumentation and Control Systems Engineering, followed by my masters degree in Electrical Engineering. I need this position to pay for rent, food and other necessary expenses. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
 					" \r\n" + 
 					"•         West Australian Responsible Service of Alcohol (RSA)\r\n" + 
 					"•         Barista Training\r\n" + 
@@ -415,7 +367,9 @@ public class Builder implements JobApplicationBuilder {
 					"\r\n" + 
 					"";
 			
-			CoverLettersSeek[x] = "Hello, I am Steven. I am a " + JobApplication.GetJobTitle() + " with two and a half years recent industry experience. I would like to apply for the “" + JobAdds[x].GetTitle() + "” position at " + JobAdds[x].GetCompanyName() + " you listed on " + JobAdds[x].GetWebsite() + ". I am seeking a long-term part-time or casual position for the next four years while I complete my undergraduate studies in Instrumentation and Control Systems Engineering, followed by my masters degree in Electrical Engineering. I need this position to pay for rent, food and other necessary expenses. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdds[x].GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
+		} else {
+			
+			CoverLetter = "Hello, I am Steven. I am a " + JobAdd.GetKeyWord() + " with two and a half years recent industry experience. I would like to apply for the “" + JobAdd.GetTitle() + "” position at " + JobAdd.GetCompanyName() + " you listed on " + JobAdd.GetWebsite() + ". I am seeking a long-term part-time or casual position for the next four years while I complete my undergraduate studies in Instrumentation and Control Systems Engineering, followed by my masters degree in Electrical Engineering. I need this position to pay for rent, food and other necessary expenses. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
 					" \r\n" + 
 					"•         West Australian Responsible Service of Alcohol (RSA)\r\n" + 
 					"•         Barista Training\r\n" + 
@@ -435,43 +389,40 @@ public class Builder implements JobApplicationBuilder {
 					"I can be contacted on 0417 180 131 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
 					"";
-			
-			//System.out.println("Job Add:\n" + JobAdds[x].GetTitle() + " || " + JobAdds[x].GetURL() + "\nJob Cover Letter:\n" + CoverLettersGumtree[x]);
 			
 		}
 		
-		//System.out.println("Job Add:\n" + JobAdds[1].GetTitle() + " || " + JobAdds[1].GetURL() + "\nJob Cover Letter:\n" + CoverLettersGumtree[1]);
-
+		System.out.println(CoverLetter);
+			
 	}
 
 	@Override
-	public void ProcessDistance() {
-		
-		for (int x = 0; x < JobAdds.length; x++) {
+	public String ProcessDistance() {
 			
-			if (Integer.parseInt(JobAdds[x].GetDistance_km()) < 2) {
+			if (Integer.parseInt(JobAdd.GetDistance_km()) < 2) {
 				
-				CoverLettersGumtree[x] = CoverLettersGumtree[x].replace(" I live just _Distance_km_ from ", " I live just under a kilometre away from ");
-				CoverLettersSeek[x] = CoverLettersSeek[x].replace(" I live just _Distance_km_ from ", " I live just under a kilometre away from ");
+				CoverLetter = CoverLetter.replace(" I live just _Distance_km_ from ", " I live just under a kilometre away from ");
+				//CoverLettersSeek[x] = CoverLettersSeek[x].replace(" I live just _Distance_km_ from ", " I live just under a kilometre away from ");
 				
-			} else if (Integer.parseInt(JobAdds[x].GetDistance_km()) < 11) {
 				
-				CoverLettersGumtree[x] = CoverLettersGumtree[x].replace(" I live just _Distance_km_ from ", " I live just " + JobAdds[x].GetDistance_km() + " kilometres away from ");
-				CoverLettersSeek[x] = CoverLettersSeek[x].replace(" I live just _Distance_km_ from ", " I live just " + JobAdds[x].GetDistance_km() + " kilometres away from ");
+			} else if (Integer.parseInt(JobAdd.GetDistance_km()) < 11) {
+				
+				CoverLetter = CoverLetter.replace(" I live just _Distance_km_ from ", " I live just " + JobAdd.GetDistance_km() + " kilometres away from ");
+				//CoverLettersSeek[x] = CoverLettersSeek[x].replace(" I live just _Distance_km_ from ", " I live just " + JobAdds[x].GetDistance_km() + " kilometres away from ");
+				
 				
 			} else {
 				
-				CoverLettersGumtree[x] = CoverLettersGumtree[x].replace(" I live just _Distance_km_ from ", " I have no problem getting to ");
-				CoverLettersSeek[x] = CoverLettersSeek[x].replace(" I live just _Distance_km_ from ", " I have no problem getting to ");
+				CoverLetter = CoverLetter.replace(" I live just _Distance_km_ from ", " I have no problem getting to ");
+				//CoverLettersSeek[x] = CoverLettersSeek[x].replace(" I live just _Distance_km_ from ", " I have no problem getting to ");
 				
 			}
-			
-		}
 		
+		return CoverLetter;
+	}
 		//To show what Add and URL it was
 		//System.out.println("Job Add:\n" + JobAdds[0].GetTitle() + " || " + JobAdds[0].GetURL() + "\nJob Cover Letter:\n" + CoverLettersGumtree[0]);
 
-	}
 	
 	@Override
 	public void ProcessAge() {
@@ -489,14 +440,14 @@ public class Builder implements JobApplicationBuilder {
 	@Override
 	public void BuildMessagesGumtree() {
 		
-		JobApplication.SetMessagesGumtree(CoverLettersGumtree);
+		//JobApplication.SetMessagesGumtree(CoverLettersGumtree);
 
 	}
 	
 	@Override
 	public void BuildMessagesSeek() {
 		
-		JobApplication.SetMessagesSeek(CoverLettersSeek);
+		//JobApplication.SetMessagesSeek(CoverLettersSeek);
 
 	}
 	
@@ -528,6 +479,26 @@ public class Builder implements JobApplicationBuilder {
 	public applying.JobApplication GetJobApplication() {
 
 		return JobApplication;
+		
+	}
+
+	@Override
+	public void SetJobAdd(JobAdd jobAdd1) {
+		
+		this.JobAdd = jobAdd1;
+		
+	}
+	
+	@Override
+	public JobAdd GetJobAdd() {
+		
+		return JobAdd;
+		
+	}
+
+	@Override
+	public void ProcessVarsInit() throws SQLException {
+		// TODO Auto-generated method stub
 		
 	}
 

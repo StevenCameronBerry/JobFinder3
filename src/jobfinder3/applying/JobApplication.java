@@ -213,8 +213,9 @@ public class JobApplication implements JobApplicationPlan {
 	}
 
 	@Override
-	public void GetWords() {
-		// TODO Auto-generated method stub
+	public String[] GetWords() {
+		
+		return Words;
 		
 	}
 

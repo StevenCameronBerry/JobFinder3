@@ -4,10 +4,11 @@ package jobfinder3;
 
 public class JobAdd implements JobAddPlan {
         
-    private String UniqueID, Title, Location, Age, URL, SalaryType, JobType,
-            Description, TitleDesc, Website, AdvertiserName, CompanyName, 
-            InvalidStr, TitleClear, DescriptionClear, ID;
-    private int Distance_km;
+    private String UniqueID = "null", Title = "null", Location = "null", Age = "null", URL = "null", SalaryType = "null",
+    		JobType = "null", Description = "null", TitleDesc = "null", Website = "null", AdvertiserName = "null",
+    		CompanyName = "null", InvalidStr = "null", TitleClear = "null", DescriptionClear = "null", ID = "null",
+    		KeyWord = "null", Message = "null";
+    private int Distance_km = 0;
     
     public JobAdd(){
         
@@ -397,5 +398,33 @@ public class JobAdd implements JobAddPlan {
             "\n===================\n";
         
     }
+
+	@Override
+	public void SetKeyWord(String KeyWord) {
+		
+		this.KeyWord = KeyWord;
+		
+	}
+
+	@Override
+	public String GetKeyWord() {
+		
+		return KeyWord;
+		
+	}
+
+	@Override
+	public void SetMessage(String Message) {
+
+		this.Message = Message;
+		
+	}
+
+	@Override
+	public String GetMessage() {
+		
+		return Message;
+		
+	}
     
 }

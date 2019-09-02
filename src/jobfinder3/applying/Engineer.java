@@ -39,7 +39,7 @@ public class Engineer implements JobApplicationEngineer {
 	
 	//All the methods that follow are the directions for constructing the JobApplication object
 	@Override
-	public void CombWords(String[] OrigWords) {
+	public String[] CombWords(String[] OrigWords) {
 		
 		JobApplicationBuilder.SetOrigWords(OrigWords);
 		JobApplicationBuilder.IdentifySpaceSize();
@@ -50,7 +50,9 @@ public class Engineer implements JobApplicationEngineer {
 		JobApplicationBuilder.RawComboList();
 		JobApplicationBuilder.ComboWords();
 		JobApplicationBuilder.ComboWordsArr();
-		JobApplicationBuilder.BuildComboWords();
+		String Words[] = JobApplicationBuilder.BuildComboWords();
+		
+		return Words;
 
 	}
 	
@@ -73,17 +75,15 @@ public class Engineer implements JobApplicationEngineer {
 	}
 
 	@Override
-	public void BuildMessage(JobApplication JobApp) throws SQLException {
+	public String BuildMessage(JobAdd JobAdd) throws SQLException {
 		
-		JobApplicationBuilder.SetJobApplication(JobApp);
-		JobApplicationBuilder.SetResults();
-		JobApplicationBuilder.ProcessVarsInit();
+		JobApplicationBuilder.SetJobAdd(JobAdd);
 		JobApplicationBuilder.ProcessVars();
-		JobApplicationBuilder.ProcessDistance();
-		JobApplicationBuilder.ProcessAge();
-		JobApplicationBuilder.BuildJobAdds();
-		JobApplicationBuilder.BuildMessagesGumtree();
-		JobApplicationBuilder.BuildMessagesSeek();
+		String Message = JobApplicationBuilder.ProcessDistance();
+		
+		System.out.println(Message);
+		
+		return Message;
 
 	}
 	

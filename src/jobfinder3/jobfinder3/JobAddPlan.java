@@ -31,6 +31,10 @@ public interface JobAddPlan {
     public void SetSalaryType(String SalaryType);
     public void SetJobType(String JobType);
     
+    public void SetKeyWord(String KeyWord);
+    
+    public void SetMessage(String Message);
+    
     /*Getters*/
     //Required to make UniequeID
     public String GetWebsite();
@@ -57,5 +61,9 @@ public interface JobAddPlan {
     public String GetAge();
     public String GetSalaryType();
     public String GetJobType();
+    
+    public String GetMessage();
+    
+    public String GetKeyWord();
     
 }

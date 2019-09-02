@@ -2,13 +2,15 @@ package applying;
 
 import java.sql.SQLException;
 
+import jobfinder3.JobAdd;
+
 public interface JobApplicationEngineer {
 	
 	//Building Methods
-	public void CombWords(String[] OrigWords);
+	public String[] CombWords(String[] OrigWords);
 	public void NearWords();
 	public void BuildSQLQuery();
-	public void BuildMessage(JobApplication JobApp) throws SQLException;
+	public String BuildMessage(JobAdd add) throws SQLException;
 	
 	//Encapsulation
 	public JobApplication GetJobApplication();

@@ -29,6 +29,7 @@ package jobfinder3;
 
 import java.sql.*;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 //Gumtree Package
@@ -59,6 +60,7 @@ public class JobFinder3 {
         
         //Initialize Variables
         String[] Adds = {"Seek","Gumtree","Indeed"};
+        HashMap<String, String[]> Words = new HashMap<String, String[]>();
         int itr = 0;
         JobAddBuilder builder;
         JobAddEngineer engineer;
@@ -67,7 +69,7 @@ public class JobFinder3 {
         ScrapeLoop: while(true){//
         
             //Initialize Attributes
-            int  Page = 1, AddItr, z = 0, q = 0, PageSize, a = 0;
+            int  Page = 1, AddItr, z = 0, AddCtr = 0, PageSize, a = 0, AddCtr2 = 0;
             Scrape ScrapeObj;
             Parse ParseObj;
             
@@ -246,16 +248,30 @@ public class JobFinder3 {
 
             }
             
+            //This is to get a Word array (the variable "Words") so that they can be searched for in the DB loop against each add.
+            for (JobTypes JobType : JobTypes.values()) {
+            	
+            	//Initialize Builder and Engineer
+    			JobApplicationBuilder BuilderJobApplic = new Builder(JobType.JobTitle());
+    			JobApplicationEngineer EngineerJobApplic = new Engineer(BuilderJobApplic);
+    			
+    			//Create the Words array
+    			Words.put(JobType.JobTitle(), EngineerJobApplic.CombWords(JobType.OrigWords()));
+    			
+    			
+    			
+            }
+            
             //Need to add a final counter and make it equal to z here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED
             //for(int x=0; x < z; x++, q++){System.out.println(add[q].GetTitle());}
             //Scrape the descriptions, format and insert into DB
-            DBLoop: for(int x=0; x < z; x++, q++){
+            DBLoop: for(int x=0; x < z; x++, AddCtr++){
 
                 //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE
-                int[] Counters = new int[]{x,z,q};
+                int[] Counters = new int[]{x,z,AddCtr};
                 
-                URL = ScrapeObj.BuildString(add[q].GetID());
+                URL = ScrapeObj.BuildString(add[AddCtr].GetID());
                 
                 //System.out.println(add[q].GetID());
                 System.out.println(URL);
@@ -275,15 +291,50 @@ public class JobFinder3 {
                 ParseObj.SetDB();
 
                 //BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD BUILD
-                builder.SetJobAdd(add[q]);
+                builder.SetJobAdd(add[AddCtr]);
                 engineer.SetBuilder(builder);
                 engineer.MakeDB();
-                add[q] = engineer.GetJobAdd();
+                add[AddCtr] = engineer.GetJobAdd();
                 //Insert into the DB.
                 //Thread.sleep(10000);
                 
-                DBConnect.InsertAdd(add[q],Counters,conn);
-
+                //System.out.println(add[AddCtr].GetTitleDesc());
+                
+                
+              //Find out if any key word was in the add, than mark it as such in the DB
+                for (String Word: Words.keySet()) {
+                	
+                	//System.out.println(Word + ":");
+                	//Initialize Builder and Engineer
+        			JobApplicationBuilder BuilderJobApplic = new Builder(Word);
+        			JobApplicationEngineer EngineerJobApplic = new Engineer(BuilderJobApplic);
+                	
+                	int Ctr = Words.get(Word).length;
+                	for (int i = 0; i < Ctr; i++) {
+                		
+                		//System.out.println(Words.get(Word)[i]);
+                		
+                		//If the sub-word was found, mark it as such in the DB
+                		if (add[AddCtr].GetTitleDesc().contains(Words.get(Word)[i])) {
+                			
+                			add[AddCtr].SetKeyWord(Word);
+                			
+                			System.out.println(add[AddCtr].GetKeyWord());
+                			
+                			System.out.println("Key Word Found: " + Word);
+                			
+                			String Message = EngineerJobApplic.BuildMessage(add[AddCtr]);
+                			
+                			add[AddCtr].SetMessage(Message);
+                			
+                		}
+                		
+                	}
+    				
+    			}
+                
+                DBConnect.InsertAdd(add[AddCtr],Counters,conn);
+                
                 //To prevent memory leaks
                 if(x == 500){
 
@@ -293,6 +344,8 @@ public class JobFinder3 {
                 }
 
             }
+            
+          
 
             //Disconnect DB
             DBConnect.Disconnect(conn);
@@ -314,17 +367,21 @@ public class JobFinder3 {
         //Connect to DB
         Connection conn2 = DBConnect.Connect();
         
+        }
+	}
+}
+        
         /*This part of the main algorithm is for actually applying to the jobs*/
         //Create an array of JobApplications
         //Iterate through the different types of Job Types
-        ApplyLoop: for (JobTypes JobType : JobTypes.values()) {
+        /*ApplyLoop: for (JobTypes JobType : JobTypes.values()) {
         	
-        	/*Populate the attributes for the Job Application object.
+        	Populate the attributes for the Job Application object.
         	To initialize this object you need:
         	
         	1. Job Title
         	2. Orig Words
-        	3. Messages for each website*/
+        	3. Messages for each website
         	
         	
         	//Initialize Builder and Engineer
@@ -350,7 +407,5 @@ public class JobFinder3 {
         
         DBConnect.Disconnect(conn2);
         
-   }
+   }*/
         
-}
-}

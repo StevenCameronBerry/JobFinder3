@@ -23,7 +23,7 @@ public interface JobApplicationPlan {
 	
 	//Getters
 	public String GetJobTitle();
-	public void GetWords();
+	public String[] GetWords();
 	public JobAdd GetJobAdd();
 	public void GetMessagesGumtree();
 	public void GetMessagesSeek();
