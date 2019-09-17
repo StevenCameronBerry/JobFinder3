@@ -56,7 +56,7 @@ import Indeed.ScrapeIndeed;
 
 public class JobFinder3 {
 
-	public static void main(String[] args) throws Exception {
+	public static void main (String[] args) throws Exception {
         
         //Initialize Variables
         String[] Adds = {"Seek","Gumtree","Indeed"};
@@ -66,7 +66,7 @@ public class JobFinder3 {
         JobAddEngineer engineer;
         String URL;
 
-        ScrapeLoop: while(true){//
+        ScrapeLoop: while (true){
         
             //Initialize Attributes
             int  Page = 1, AddItr, z = 0, AddCtr = 0, PageSize, a = 0, AddCtr2 = 0;
@@ -74,7 +74,7 @@ public class JobFinder3 {
             Parse ParseObj;
             
             //To determine which classes to use.
-            switch(Adds[itr]) {
+            switch (Adds[itr]) {
                 
                 case "Seek" :
                     
@@ -176,10 +176,10 @@ public class JobFinder3 {
             System.out.println("contained in " + NumPages + " pages.");
 
             //Book Loop
-            BookLoop: for(Page=1; Page <= NumPages; Page++){
+            BookLoop: for (Page=1; Page <= NumPages; Page++) {
 
                 //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE
-                if(Page != 1){
+                if (Page != 1) {
                     
                     IndxURL = ScrapeObj.BuildString(Page, PageSize);
                     ScrapeObj.SetString(IndxURL, Page);
@@ -201,14 +201,14 @@ public class JobFinder3 {
                 int NumAddsPage = ParseObj.NumAddsPage();
 
                 //Get all of the result List (0 - 95)
-                PageLoop: for(a=0,AddItr=0; AddItr < NumAddsPage; AddItr++, z++, a++){
+                PageLoop: for (a=0, AddItr=0; AddItr < NumAddsPage; AddItr++, z++, a++) {
 
                     //PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE 
                     //Extraction process
                     ParseObj.NavigatePL(AddItr);
 
                     //Ignore Premium adds
-                    if (ParseObj.Ignore(z, AddsInDB) == true){
+                    if (ParseObj.Ignore(z, AddsInDB) == true) {
                         
                         z--;
                         a--;
@@ -241,6 +241,7 @@ public class JobFinder3 {
                     add[z] = JobAddCopy;
                     
                 }
+                
                     //Some logging
                     System.out.println(a + " new adds scrapped from page.");
                     System.out.println(z + " adds scraped in total out of " + 
@@ -258,15 +259,13 @@ public class JobFinder3 {
     			//Create the Words array
     			Words.put(JobType.JobTitle(), EngineerJobApplic.CombWords(JobType.OrigWords()));
     			
-    			
-    			
             }
             
             //Need to add a final counter and make it equal to z here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED50 FOR EACH FOR INDEED
             //for(int x=0; x < z; x++, q++){System.out.println(add[q].GetTitle());}
             //Scrape the descriptions, format and insert into DB
-            DBLoop: for(int x=0; x < z; x++, AddCtr++){
+            DBLoop: for (int x=0; x < z; x++, AddCtr++) {
 
                 //SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE SCRAPE
                 int[] Counters = new int[]{x,z,AddCtr};
@@ -301,7 +300,7 @@ public class JobFinder3 {
                 //System.out.println(add[AddCtr].GetTitleDesc());
                 
                 
-              //Find out if any key word was in the add, than mark it as such in the DB
+                //Find out if any key word was in the add, than mark it as such in the DB
                 for (String Word: Words.keySet()) {
                 	
                 	//System.out.println(Word + ":");
@@ -311,8 +310,6 @@ public class JobFinder3 {
                 	
                 	int Ctr = Words.get(Word).length;
                 	for (int i = 0; i < Ctr; i++) {
-                		
-                		//System.out.println(Words.get(Word)[i]);
                 		
                 		//If the sub-word was found, mark it as such in the DB
                 		if (add[AddCtr].GetTitleDesc().contains(Words.get(Word)[i])) {
@@ -344,19 +341,17 @@ public class JobFinder3 {
                 }
 
             }
-            
-          
 
             //Disconnect DB
             DBConnect.Disconnect(conn);
             
-          //Increase the iterator for which website to scrape from
+            //Increase the iterator for which website to scrape from
             itr++;
-            if(itr == 2) {
+            if (itr == 2) {
             	
             	itr = 0;
             	
-            	//If the itr is at the second one, re-start the downloading.
+            //If the itr is at the second one, re-start the downloading.
             } else if (itr == 1) {
             	
             	continue;
@@ -368,7 +363,9 @@ public class JobFinder3 {
         Connection conn2 = DBConnect.Connect();
         
         }
+        
 	}
+	
 }
         
         /*This part of the main algorithm is for actually applying to the jobs*/

@@ -7,10 +7,10 @@ public enum JobTypes {
 		"dish pig", "dishie", "dish washer", "dish hand"}),
 	Glassy("Glassy", new String[]{"glassy", "bar back", "glassie"}),
 	BarMan("Bar Man", new String[]{"bar tender", "bar man", "bar woman", "bar staff", "cocktail maker",
-			"bar keep", "bar chef", "alcohol chef", "fair man", "bar attendant"}),
+			"bar keep", "bar chef", "alcohol chef", "fair man", "bar attendant", "pub staff"}),
 	Waiter("Waiter", new String[]{"waiter", "waitress", "front end staff", "wait person",
 			"wait staff", "bus boy", "steward", "food runner", "foh", "front of house", "floor staff", "cafe all rounder", 
-			"cafe staff"});
+			"cafe staff", "waiting staff"});
 	
 	private String JobTitle;
 	private String[] OrigWords;

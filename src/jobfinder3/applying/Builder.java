@@ -363,7 +363,7 @@ public class Builder implements JobApplicationBuilder {
 					"•        Full day availability on Friday, Saturday and Sunday\r\n" + 
 					"•        Availability on most nights, which can be discussed upon interview.\r\n" + 
 					" \r\n" + 
-					"I can be contacted on 0417 180 131 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
+					"I can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
 					"";
 			
@@ -386,7 +386,7 @@ public class Builder implements JobApplicationBuilder {
 					"•        Full day availability on Friday, Saturday and Sunday\r\n" + 
 					"•        Availability on most nights, which can be discussed upon interview.\r\n" + 
 					" \r\n" + 
-					"I can be contacted on 0417 180 131 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
+					"I can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
 					"";
 			

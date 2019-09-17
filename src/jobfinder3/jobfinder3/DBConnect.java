@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.Arrays;
 
@@ -168,6 +169,10 @@ public class DBConnect{
         }catch(SQLIntegrityConstraintViolationException e){
         	
         	//Do nothing
+        	
+        }catch(SQLSyntaxErrorException eee) {
+        	
+        	//Log in the future DELETE ME EVENTUALLLLYYYYYYYYYY OR LOGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
         	
         }
         
