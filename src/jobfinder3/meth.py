@@ -11,9 +11,12 @@ from JobAdd import JobAdd
 from JobApplicant import Applicant
 from JobApplicantSeek import ApplicantSeek
 import json
+import time
 
 #Initialize Variables
-KeyWords = ["Kitchen Hand", "Glassy", "Bar Man", "Waiter"]
+KeyWords = ["Kitchen Hand", "Glassy", "Bar Man", "Waiter","Labourer","Administration Clerk","Trolley Boy","Super Market Professional","driver",
+"Retail Professional","Call Centre","Dog Walker","Mathematics Tutor","Physics Tutor",
+"IT Professional","Software Developer","Cleaner","Logistics Professional"]
 Adds = ["Gumtree", "Seek", "Indeed", "Facebook", "Linkedin"]
 AddsItr = 0
 KeyWordsItr = 0
@@ -64,6 +67,8 @@ while True:
         JobAdds[x] = JobAdd(myresult[x][0])
         JobAdds[x].SetID(myresult[x][1])
         JobAdds[x].SetCoverLetter(myresult[x][15])
+        
+        print(JobAdds[x].GetID())
             
         #Initaliza variables
         UniqueID = JobAdds[x].GetUniqueID()
@@ -91,6 +96,7 @@ while True:
 
         #Make the post request
         Applier.Post()
+        time.sleep(1)
         
         #Open the Gumtree.json file
         Applier.OpenRep()

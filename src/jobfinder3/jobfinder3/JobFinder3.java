@@ -59,7 +59,7 @@ public class JobFinder3 {
 	public static void main (String[] args) throws Exception {
         
         //Initialize Variables
-        String[] Adds = {"Seek","Gumtree","Indeed"};
+        String[] Adds = {"Gumtree","Indeed"};
         HashMap<String, String[]> Words = new HashMap<String, String[]>();
         int itr = 0;
         JobAddBuilder builder;
@@ -76,21 +76,9 @@ public class JobFinder3 {
             //To determine which classes to use.
             switch (Adds[itr]) {
                 
-                case "Seek" :
-                    
-                    System.out.println("\nSEEK SEEK SEEK SEEK");
-                    
-                    ScrapeObj = new ScrapeSeek();
-                    ParseObj = new ParseSeek();
-                    builder = new JobAddBuilderSeek();
-                    engineer = new JobAddEngineerSeek(builder);
-                    PageSize = 100;
-
-                    break;
-                    
                 case "Gumtree" :
                     
-                    System.out.println("\nGUMTREE GUMTREE GUMTREE GUMTREE");
+                	System.out.println("\nGUMTREE GUMTREE GUMTREE GUMTREE");
                     
                     ScrapeObj = new ScrapeGumtree();
                     ParseObj = new ParseGumtree();
@@ -98,6 +86,18 @@ public class JobFinder3 {
                     engineer = new JobAddEngineerGumtree(builder);
                     PageSize = 96;
                     
+                    break;
+                    
+                case "Seek" :
+                    
+                	System.out.println("\nSEEK SEEK SEEK SEEK");
+                    
+                    ScrapeObj = new ScrapeSeek();
+                    ParseObj = new ParseSeek();
+                    builder = new JobAddBuilderSeek();
+                    engineer = new JobAddEngineerSeek(builder);
+                    PageSize = 100;
+
                     break;
 
                 case "Indeed":
@@ -346,8 +346,9 @@ public class JobFinder3 {
             DBConnect.Disconnect(conn);
             
             //Increase the iterator for which website to scrape from
+            //Only doing gumtree atm cause seek cooked it
             itr++;
-            if (itr == 2) {
+            if (itr == 1) {
             	
             	itr = 0;
             	
@@ -358,9 +359,9 @@ public class JobFinder3 {
             	
             }
             
-        //JUST SETTLE ON 2 AND NOT CRASHING UNTILL YOU ARE ACTUALLY LOOKING FOR A JOB CUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
-        //Connect to DB
-        Connection conn2 = DBConnect.Connect();
+	        //JUST SETTLE ON 2 AND NOT CRASHING UNTILL YOU ARE ACTUALLY LOOKING FOR A JOB CUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
+	        //Connect to DB
+	        Connection conn2 = DBConnect.Connect();
         
         }
         

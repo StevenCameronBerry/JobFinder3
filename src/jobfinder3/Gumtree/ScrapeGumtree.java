@@ -15,7 +15,7 @@ public class ScrapeGumtree implements Scrape {
     @Override
     public String BuildString(int Page, int PageSize) {
         
-        String Website = "https://www.gumtree.com.au/ws/search.json?categoryId=9302&locationId=3008546&locationStr=SouthPerth&offerType=OFFER&pageNum=" + Page + "&pageSize=" + PageSize + "&previousCategoryId=9302&radius=50&sortByName=date";
+        String Website = "https://www.gumtree.com.au/ws/search.json?categoryId=9302&locationId=3008557&locationStr=Gwelup&offerType=OFFER&pageNum=" + Page + "&pageSize=" + PageSize + "&previousCategoryId=9302&radius=50&sortByName=date";
         
         return Website;
         

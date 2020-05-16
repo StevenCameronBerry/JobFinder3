@@ -50,6 +50,7 @@ public class JobAddBuilderGumtree implements JobAddBuilder {
             this.Input = this.Input.replace("\"", "");
             this.Input = this.Input.replace("&", "and");
             this.Input = this.Input.replace("Ã©", "e");
+            this.Input = this.Input.replace("é", "e");
             
         } catch(Exception e){
             return this.Input;
@@ -108,8 +109,9 @@ public class JobAddBuilderGumtree implements JobAddBuilder {
         JobAdd.SetTitle(this.Title);
         
     }
+    
     //Description
-    //Format
+    //Format -- CANT USE THE FORMAT METHOD FIRST AS IT CHOPS OFF THE START AND END OF THE STRING BY 1 CHAR
     @Override
     public void FormatDescription(){
         
@@ -118,6 +120,7 @@ public class JobAddBuilderGumtree implements JobAddBuilder {
         this.Description = this.Description.replace("Ã©", "e");
         this.Description = this.Description.replace("`", "");
         this.Description = this.Description.replace("-", "");
+        this.Description = this.Description.replace("é", "");
         
     }
     //Build

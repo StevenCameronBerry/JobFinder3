@@ -12,6 +12,7 @@ import encodings
 import json
 from subprocess import Popen
 import bs4
+import os
 
 class Applicant:
 
@@ -114,6 +115,8 @@ class Applicant:
         #Save the file
         jsonFile = open("Gumtree.json", "w+")
         jsonFile.write(json.dumps(self.__data))
+        
+        print(jsonFile)
         jsonFile.close()
 
     #Get request for before updating sectuirty shit
@@ -157,8 +160,8 @@ class Applicant:
     
     #Tell Newman to post
     def Post(self):
-
-        p = Popen("Run.bat", cwd=r"C:\Users\Dell\eclipse-workspace\Applier")
+        
+        p = Popen("Run.bat", cwd=r"C:\Users\Dell\Desktop\Documents\NetBeansProjects\job-finder-3\src\jobfinder3")
         stdout, stderr = p.communicate()
     
     #Open the Newman HTML Report
