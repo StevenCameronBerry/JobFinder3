@@ -1,1 +1,1 @@
-newman run PutGumtree.json -r htmlextra --reporter-htmlextra-template C:\Users\Dell\eclipse-workspace\Applier\CustTemp.hbs --reporter-htmlextra-export C:\Users\Dell\eclipse-workspace\Applier\LatestReport.html
+newman run Gumtree.json -r htmlextra --reporter-htmlextra-template C:\Users\Dell\eclipse-workspace\Applier\CustTemp.hbs --reporter-htmlextra-export C:\Users\Dell\eclipse-workspace\Applier\LatestReport.html

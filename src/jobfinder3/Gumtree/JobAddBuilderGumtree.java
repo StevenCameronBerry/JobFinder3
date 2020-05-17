@@ -50,7 +50,7 @@ public class JobAddBuilderGumtree implements JobAddBuilder {
             this.Input = this.Input.replace("\"", "");
             this.Input = this.Input.replace("&", "and");
             this.Input = this.Input.replace("Ã©", "e");
-            this.Input = this.Input.replace("é", "e");
+            this.Input = this.Input.replace("ï¿½", "e");
             
         } catch(Exception e){
             return this.Input;
@@ -120,7 +120,7 @@ public class JobAddBuilderGumtree implements JobAddBuilder {
         this.Description = this.Description.replace("Ã©", "e");
         this.Description = this.Description.replace("`", "");
         this.Description = this.Description.replace("-", "");
-        this.Description = this.Description.replace("é", "");
+        this.Description = this.Description.replace("ï¿½", "");
         
     }
     //Build

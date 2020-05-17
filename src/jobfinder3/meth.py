@@ -14,7 +14,7 @@ import json
 import time
 
 #Initialize Variables
-KeyWords = ["Kitchen Hand", "Glassy", "Bar Man", "Waiter","Labourer","Administration Clerk","Trolley Boy","Super Market Professional",
+KeyWords = ["Kitchen Hand", "Glassy", "Bar Man", "Waiter","Labourer","Administration Clerk","Trolley Boy","Super Market Professional","driver",
 "Retail Professional","Call Centre","Dog Walker","Mathematics Tutor","Physics Tutor",
 "IT Professional","Software Developer","Cleaner","Logistics Professional"]
 Adds = ["Gumtree", "Seek", "Indeed", "Facebook", "Linkedin"]
@@ -73,8 +73,6 @@ while True:
         #Initaliza variables
         UniqueID = JobAdds[x].GetUniqueID()
         ID = JobAdds[x].GetID()
-        
-        print(ID)
 
         #Set the Job Add
         Applier.SetJobAdd(JobAdds[x])
@@ -87,9 +85,11 @@ while True:
         
         #Update the appripriate parameters
         Applier.UpdateRefer()
+        Applier.UpdateID()
+        Applier.UpdateMsg()
         Applier.UpdateCSRFToken()
-        Applier.UpdateURL()
-        Applier.UpdatePath()
+        Applier.UpdateCSRFTime()
+        Applier.UpdateBBToken()
         
         #Save and close the file
         Applier.SaveFile()
