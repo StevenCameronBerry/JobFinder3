@@ -4,8 +4,6 @@ package applying;
 public enum JobTypes {
 
 	//The job titles followed by each way that that could have been said
-	KitchenHand("Kitchen Hand", new String[] {"kitchen hand", "kitchen helper", "kitchen assistant",
-			"dishy", "dish pig", "dishie", "dish washer", "dish hand"}),
 	Glassy("Glassy", new String[]{"glassy", "bar back", "glassie"}),
 	BarMan("Bar Man", new String[]{"bar tender", "bar man", "bar woman", "bar staff", "cocktail maker",
 			"bar keep", "bar chef", "alcohol chef", "fair man", "bar attendant", "pub staff",
@@ -14,7 +12,7 @@ public enum JobTypes {
 	Waiter("Waiter", new String[]{"waiter", "waitress", "front end staff", "wait person",
 			"wait staff", "bus boy", "steward", "food runner", "foh", "front of house", "floor staff",
 			"cafe all rounder", "cafe staff", "waiting staff", "lunch bar all rounder",
-			"restraunt staff", "floor person", "cafe job", "bistro staff"}),
+			"restraunt staff", "floor person", "cafe job", "bistro staff", "serving staff"}),
 	Labourer("Labourer", new String[]{"labourer", "labouring", "off sider", "trade assistant", 
 			"trades assistant", "t/a", "hammer hand", "mud boy", "barrow boy", "factory hand"}),
 	Admin("Administration Clerk", new String[]{"administration", "admin", "receptionist", 
@@ -37,7 +35,9 @@ public enum JobTypes {
 			"level one support", "help desk", "it support technician"}),
 	Developer("Software Developer", new String[] {"software developer", "software engineer",
 			"app developer", "developer", "web developer", "business intelligence", "coder", "software development"}),
-	Cleaner("Cleaner", new String[]{"cleaner", "cleaning", "industrial cleaner"}),
+	Cleaner("Cleaner", new String[]{"cleaner", "industrial cleaner"}), //"cleaning"
+	KitchenHand("Kitchen Hand", new String[] {"kitchen hand", "kitchen helper", "kitchen assistant",
+			"dishy", "dish pig", "dishie", "dish washer", "dish hand"}),
 	TransportLogistics("Logistics Professional", new String[]{"traffic controller", "packer", 
 			"pick packer", "work shop assistant", "ware house assistant", "ware house worker",
 			"store person"});

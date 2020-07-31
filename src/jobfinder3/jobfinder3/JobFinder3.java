@@ -28,7 +28,9 @@ of the program are:
 package jobfinder3;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -59,7 +61,7 @@ public class JobFinder3 {
 	public static void main (String[] args) throws Exception {
         
         //Initialize Variables
-        String[] Adds = {"Gumtree","Indeed"};
+        String[] Websites = {"Gumtree","Indeed"};
         HashMap<String, String[]> Words = new HashMap<String, String[]>();
         int itr = 0;
         JobAddBuilder builder;
@@ -74,7 +76,7 @@ public class JobFinder3 {
             Parse ParseObj;
             
             //To determine which classes to use.
-            switch (Adds[itr]) {
+            switch (Websites[itr]) {
                 
                 case "Gumtree" :
                     
@@ -151,7 +153,7 @@ public class JobFinder3 {
             Connection conn = DBConnect.Connect();
 
             //Get an array of all of the adds in the DB MODE OBJ FOR CUSTOM EACH SITE
-            ResultSet IDs = DBConnect.ID(conn, Adds[itr]);
+            ResultSet IDs = DBConnect.ID(conn, Websites[itr]);
             int rowcount = DBConnect.NumAddsIn(IDs);
             String[] AddsInDB = new String[rowcount];
             AddsInDB = DBConnect.AlreadyIn(IDs, rowcount);

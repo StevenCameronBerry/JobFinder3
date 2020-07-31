@@ -3,9 +3,12 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src/jobfinder3"/>
 	<classpathentry kind="lib" path="dist/JobFinder3.jar"/>
-	<classpathentry kind="lib" path="dist/lib/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="dist/lib/jsoup-1.11.3.jar"/>
 	<classpathentry kind="lib" path="dist/lib/mysql-connector-java-8.0.15.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Dell/Desktop/httpmime-4.5.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/Downloads/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/Downloads/gson-2.8.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/Downloads/jackson-databind-2.10.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/Downloads/jackson-core-2.11.1-javadoc.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

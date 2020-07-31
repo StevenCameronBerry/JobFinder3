@@ -19,7 +19,7 @@ public class ParseGumtree implements Parse {
     private JsonArray ResultList;
     private JsonElement id, title, location, age, advertiser,
             data, resultsEL, distance, mainAttributesEl, dataEL;
-    private String IndexStr, Advertiser, Description, salary, jobType;
+    private String IndexStr, Advertiser, Description, salary, jobType, Date;
     private String[] AdvertiserArr;
     private int AddsOnline, NumPages;
     

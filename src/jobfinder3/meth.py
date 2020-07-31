@@ -14,9 +14,11 @@ import json
 import time
 
 #Initialize Variables
-KeyWords = ["Kitchen Hand", "Glassy", "Bar Man", "Waiter","Labourer","Administration Clerk","Trolley Boy","Super Market Professional",
-"Retail Professional","Call Centre","Dog Walker","Mathematics Tutor","Physics Tutor",
-"IT Professional","Software Developer","Cleaner","Logistics Professional"]
+KeyWords = ["Kitchen Hand", "Glassy", "Bar Man", "Waiter","Trolley Boy","Super Market Professional",
+"Retail Professional","Call Centre","Dog Walker"]
+#"Kitchen Hand", "Glassy", "Bar Man", "Waiter","Labourer","Administration Clerk","Trolley Boy","Super Market Professional",
+#"Retail Professional","Call Centre","Dog Walker","Mathematics Tutor","Physics Tutor",
+#"IT Professional","Software Developer","Cleaner","Logistics Professional"
 Adds = ["Gumtree", "Seek", "Indeed", "Facebook", "Linkedin"]
 AddsItr = 0
 KeyWordsItr = 0

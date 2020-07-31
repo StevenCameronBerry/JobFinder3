@@ -345,8 +345,9 @@ public class Builder implements JobApplicationBuilder {
 		//do for each type of job
 		if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Kitchen Hand")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with over two and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am available full time untill August. I possess a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more efficient and to learn as much and as many new skills as possible. I understand that no two kitchens are the same and I have many questions about your system and the first thing I plan on doing is learning the fridges well. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ".\n I have completed the following hospitality training courses:\r\n" + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with over two and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I possess a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more efficient and to learn as much and as many new skills as possible. I understand that no two kitchens are the same and I have many questions about your system and the first thing I plan on doing is learning the fridges well. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ".\n I have completed the following hospitality training courses:\r\n" + 
 					" \r\n" + 
+					"•         AHA Hospitality & Hygiene COVID-19 Hygiene Course\r\n" + 
 					"•         West Australian Responsible Service of Alcohol (RSA)\r\n" + 
 					"•         Barista Training\r\n" + 
 					"•         SITXFSA101 – Use Hygienic Practices for Food Safety\r\n" + 
@@ -364,8 +365,9 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Glassy")) { 
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a Hospitality Professional with over two years and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ".I am available full time untill August. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a Hospitality Professional with over two years and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
 					" \r\n" + 
+					"•         AHA Hospitality & Hygiene COVID-19 Hygiene Course\r\n" + 
 					"•         West Australian Responsible Service of Alcohol (RSA)\r\n" + 
 					"•         Barista Training\r\n" + 
 					"•         SITXFSA101 – Use Hygienic Practices for Food Safety\r\n" + 
@@ -384,8 +386,9 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Bar Man")) { 
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a Hospitality Professional with over two years and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am available full time untill August. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a Hospitality Professional with over two years and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
 					" \r\n" + 
+					"•         AHA Hospitality & Hygiene COVID-19 Hygiene Course\r\n" + 
 					"•         West Australian Responsible Service of Alcohol (RSA)\r\n" + 
 					"•         Barista Training\r\n" + 
 					"•         SITXFSA101 – Use Hygienic Practices for Food Safety\r\n" + 
@@ -404,8 +407,9 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Waiter")) {
 		
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I amo Steven Berry. I am a Hospitality Professional with over two years and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am available full time untill August. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a Hospitality Professional with over two years and a half years recent industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I possess excellent customer service skills, a very fast, efficient working pace, a positive attitude and most importantly I have the desire to become even better, faster, more customer friendly and to learn as much and as many new skills as possible. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following hospitality training courses:\r\n" + 
 					" \r\n" + 
+					"•         AHA Hospitality & Hygiene COVID-19 Hygiene Course\r\n" + 
 					"•         West Australian Responsible Service of Alcohol (RSA)\r\n" + 
 					"•         Barista Training\r\n" + 
 					"•         SITXFSA101 – Use Hygienic Practices for Food Safety\r\n" + 
@@ -424,9 +428,9 @@ public class Builder implements JobApplicationBuilder {
 	
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Labourer")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with one years industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am available full time until August. I am hard working and possess a positive attitude. I have construction experience ranging from residential buildings to large Civil projects. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following construction training courses:\r\n" + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with one years industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I have construction experience ranging from residential buildings to large Civil projects. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + ". I have completed the following construction training courses:\r\n" + 
 					" \r\n" + 
-					"•         Construction White Cardr\n" + 
+					"•         Construction White Card\n" + 
 					"•         Working in Confined Spaces\r\n" + 
 					"I also possess the following desirable attributes:\r\n" + 
 					" \r\n" + 
@@ -438,7 +442,7 @@ public class Builder implements JobApplicationBuilder {
 		
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Administration Clerk")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I have one year and four months experience in a corporate setting as an IT Manager / Software Developer. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time untill the 27th of July and part-time thereafter. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I have one year and four months experience in a corporate setting as an IT Manager / Software Developer. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".\r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -446,7 +450,7 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Trolley Boy")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -454,7 +458,7 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Super Market Professional")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I have one years experience in a supermarket as a nightfiller. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I have one years experience in a supermarket as a nightfiller. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -462,7 +466,7 @@ public class Builder implements JobApplicationBuilder {
 
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Driver")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I possess a C-A class drivers license. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I possess a C-A class drivers license. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -470,7 +474,7 @@ public class Builder implements JobApplicationBuilder {
 
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Retail Professional")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -478,7 +482,7 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Call Centre")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I am customer focused and have a high attention to detail. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -486,7 +490,7 @@ public class Builder implements JobApplicationBuilder {
 
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Dog Walker")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I live just _Distance_km_ from you in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I live just _Distance_km_ from you in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -494,7 +498,7 @@ public class Builder implements JobApplicationBuilder {
 
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Mathematics Tutor")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am an Instrumentation and Control Systems Engineering Honours student at Murdoch University. I have also created Business Intelligence Reports for some of Western Australia’s largest infrastructure projects. I am keen on providing your tutoring needs. I am available full time until August. I live just _Distance_km_ from you in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am an Instrumentation and Control Systems Engineering Honours student at Murdoch University. I have also created Business Intelligence Reports for some of Western Australia’s largest infrastructure projects. I am keen on providing your tutoring needs. I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I live just _Distance_km_ from you in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -502,7 +506,7 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Physics Tutor")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am an Instrumentation and Control Systems Engineering Honours student at Murdoch University. I have also created Business Intelligence Reports for some of Western Australia’s largest infrastructure projects. I am keen on providing your tutoring needs. I am available full time until August. I live just _Distance_km_ from you in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am an Instrumentation and Control Systems Engineering Honours student at Murdoch University. I have also created Business Intelligence Reports for some of Western Australia’s largest infrastructure projects. I am keen on providing your tutoring needs. I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I live just _Distance_km_ from you in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -510,21 +514,21 @@ public class Builder implements JobApplicationBuilder {
 
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("IT Professional")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with one year and four months industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am available full time until August. I am hard working and possess a positive attitude. I am customer focused with a strong attention to detail. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with one year and four months industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I am customer focused with a strong attention to detail. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + 
 					"I can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\nThis was an automatic application written by a bot programmed in Java using a MySQL database and the builder design pattern." + 
 					"";
 
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Software Developer")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with one year and four months industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am available full time until August. I am hard working and possess a positive attitude. I have experience in Java, Business Intelligence, Python and some experience in SQL. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + 
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am a " + JobAdd.GetKeyWord() + " with one year and four months industry experience. I would like to apply for the " + JobAdd.GetJobType() + " “" + JobAdd.GetTitle() + "” position you listed on " + JobAdd.GetWebsite() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I have experience in Java, Business Intelligence, Python and some experience in SQL. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() + 
 					"I can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\nThis was an automatic application written by a bot programmed in Java using a MySQL database and the builder design pattern." + 
 					"";
 
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Cleaner")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I have over two and half years experience as a porter in commercial kitchens. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I have over two and half years experience as a porter in commercial kitchens. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 
@@ -532,7 +536,7 @@ public class Builder implements JobApplicationBuilder {
 			
 		} else if (JobAdd.GetWebsite().equals("Gumtree") && JobAdd.GetKeyWord().equals("Logistics Professional")) {
 			
-			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am available full time until August. I am hard working and possess a positive attitude. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
+			CoverLetter = "Dear " + JobAdd.GetAdvertiserName() + ", I am Steven Berry. I am interested in applying for the position you advertised for a " + JobAdd.GetJobType() + " " + JobAdd.GetKeyWord() + ". I am looking for a part-time or casual job that works around my Control Systems Engineering studies. I have a strong preferance for weekend hours. I am hard working and possess a positive attitude. I live just _Distance_km_ from your workplace in " + JobAdd.GetLocation() +
 					".r\n" +
 					"\r\nI can be contacted on 0481 941 601 or at stevenberry305@gmail.com if interested, thank you for this opportunity.\r\n" + 
 					"\r\n" + 

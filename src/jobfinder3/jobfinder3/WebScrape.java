@@ -6,13 +6,16 @@
 package jobfinder3;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -20,6 +23,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jsoup.nodes.Element;
@@ -37,7 +41,8 @@ public class WebScrape {
         //Web Scrape all of the job adds off of gumtree
         URL url = new URL(Website);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
+        con.setRequestProperty("Accept-Encoding", "gzip"); //Use gzip only
+        con.setReadTimeout(10000);
 
         //Response type
         status = con.getResponseCode();
@@ -47,37 +52,49 @@ public class WebScrape {
             
             con.disconnect();
             con = (HttpURLConnection) url.openConnection();
-            Thread.sleep(1000);
             con.setRequestMethod("GET");
+            con.setRequestProperty("Accept-Encoding", "gzip"); //Use gzip only
+            con.setReadTimeout(10000);
             
             status = con.getResponseCode();
             
         }
-
-        ////System.out.println(status);
-
-        //Parse the information into a string, "content"
-        BufferedReader in = new BufferedReader(
-                
-        //Change this to being try catch in conjunction with the above if statement!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        new InputStreamReader(con.getInputStream()));
-        String inputLine;
+        
+        //THIS IS HOW YOU GZIP AN INPUT STREAM
+        InputStream InStream = con.getInputStream();
+        InputStream zin = new GZIPInputStream(InStream);
+        
+        BufferedReader in = new BufferedReader(new InputStreamReader(zin));
+        //System.out.println(in.readLine());
+        int loc = 0;
         StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
+        String line;
+        
+        //Use this instead of readline to see if it ever stops at any particular char
+        while ((loc = in.read()) != -1) {
+	        
+        	char c = (char) loc;
+        	content.append(c);
+        	//System.out.println(c);
+        	//System.out.println(content);
+            //content.append(inputLine);
+            
         }
+        
         in.close();
-
+        
         //Make 'content' a string
         JSONStr = content.toString();
+        //System.out.println(JSONStr);
         
         JsonParser parser = new JsonParser();
         JsonElement jsonTree = parser.parse(JSONStr);
         JsonObject jsonObject = jsonTree.getAsJsonObject();
+        //System.out.println(JSONStr);
         
         con.disconnect();
         
-        return jsonObject;
+        return jsonObject; //jsonObject
         
     }
 
