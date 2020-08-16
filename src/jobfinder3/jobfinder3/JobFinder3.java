@@ -162,7 +162,17 @@ public class JobFinder3 {
             String IndxURL = ScrapeObj.BuildString(Page, PageSize); 
             System.out.println(IndxURL);
             ScrapeObj.SetString(IndxURL, Page);
-            ScrapeObj.ScrapeIndx(Page);
+            //If the connection fails, re-start the program
+            try {
+            	
+            	ScrapeObj.ScrapeIndx(Page);
+            	
+            } catch (Exception e) {
+            	
+            	DBConnect.Disconnect(conn);
+            	continue ScrapeLoop;
+            	
+            }
 
             //PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE PARSE
             ParseObj.SetJsonIndx(ScrapeObj.GetJsonIndex());

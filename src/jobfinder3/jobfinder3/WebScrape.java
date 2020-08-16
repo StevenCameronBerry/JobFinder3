@@ -42,7 +42,6 @@ public class WebScrape {
         URL url = new URL(Website);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("Accept-Encoding", "gzip"); //Use gzip only
-        con.setReadTimeout(10000);
 
         //Response type
         status = con.getResponseCode();
