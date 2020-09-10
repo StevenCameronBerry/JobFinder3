@@ -67,6 +67,7 @@ public class JobFinder3 {
         JobAddBuilder builder;
         JobAddEngineer engineer;
         String URL;
+        boolean FullScrape = true;
 
         ScrapeLoop: while (true){
         
@@ -162,13 +163,14 @@ public class JobFinder3 {
             String IndxURL = ScrapeObj.BuildString(Page, PageSize); 
             System.out.println(IndxURL);
             ScrapeObj.SetString(IndxURL, Page);
-            //If the connection fails, re-start the program
+            //If the connection fails, re-start the program and make it do a full scrape of the index
             try {
             	
             	ScrapeObj.ScrapeIndx(Page);
             	
             } catch (Exception e) {
             	
+            	FullScrape = true;
             	DBConnect.Disconnect(conn);
             	continue ScrapeLoop;
             	
@@ -233,7 +235,7 @@ public class JobFinder3 {
                     
                     //Stop if an add thats already in the DB has been come across.
                     boolean DBCheck = ParseObj.CheckDup(AddsInDB);
-                    if (DBCheck == true){
+                    if (DBCheck == true && FullScrape == false){
                         
                         System.out.println(a + " new adds scrapped from page.");
                         System.out.println(z + " adds scraped in total out of "
@@ -354,8 +356,9 @@ public class JobFinder3 {
 
             }
 
-            //Disconnect DB
+            //Disconnect DB and we want to stop scraping all adds if it's not the first run of the loop
             DBConnect.Disconnect(conn);
+            FullScrape = false;
             
             //Increase the iterator for which website to scrape from
             //Only doing gumtree atm cause seek cooked it
@@ -370,10 +373,6 @@ public class JobFinder3 {
             	continue;
             	
             }
-            
-	        //JUST SETTLE ON 2 AND NOT CRASHING UNTILL YOU ARE ACTUALLY LOOKING FOR A JOB CUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
-	        //Connect to DB
-	        Connection conn2 = DBConnect.Connect();
         
         }
         
